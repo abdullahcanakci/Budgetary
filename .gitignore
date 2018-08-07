@@ -154,3 +154,6 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+app/libs/
+app/src/androidTest/
+app/src/test/
