@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.data.database.TransactionDao;
 import com.example.abdullah.budgetary.databinding.FragmentMainBinding;
+import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
 import com.example.abdullah.budgetary.utilities.AppExecutors;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
@@ -26,6 +30,7 @@ public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment";
     MainFragmentViewModel mViewModel;
     private FragmentMainBinding binding;
+    TransactionRecyclerAdapter recyclerAdapter = new TransactionRecyclerAdapter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +53,16 @@ public class MainFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         binding.setModel(mViewModel);
         binding.setLifecycleOwner(this);
+
+        RecyclerView recyclerView = binding.getRoot().findViewById(R.id.transaction_summary_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(recyclerAdapter);
+        mViewModel.getLastTransactions().observeForever((transactions) -> {
+            Log.d(TAG, "name of the class " + transactions.getClass().getName());
+            recyclerAdapter.updateList(transactions);
+            recyclerView.smoothScrollToPosition(0);
+        });
+
         return binding.getRoot();
     }
 
@@ -55,4 +70,5 @@ public class MainFragment extends Fragment {
         if(this.getView() != null)
             this.getView().invalidate();
     }
+
 }

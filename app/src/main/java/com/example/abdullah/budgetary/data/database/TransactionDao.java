@@ -17,7 +17,7 @@ public interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(Transaction... transactions);
 
-    @Query("SELECT * FROM transactions WHERE date >= :date")
+    @Query("SELECT * FROM transactions WHERE date >= :date  ORDER BY date DESC ")
     LiveData<List<Transaction>> getTransactionsFromDate(Date date);
 
     @Query("SELECT * FROM transactions WHERE date >= :before AND date < :after")
