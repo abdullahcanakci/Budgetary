@@ -1,9 +1,13 @@
 package com.example.abdullah.budgetary.data;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.database.TransactionType;
+import com.example.abdullah.budgetary.utilities.CurrencyUtility;
+import com.example.abdullah.budgetary.utilities.DateUtilities;
 
 import java.util.Date;
 
@@ -26,6 +30,11 @@ public class Transaction {
         this.isIncome = isIncome;
         this.amount = amount;
         this.type = type;
+    }
+
+    @Ignore
+    public Transaction() {
+
     }
 
     public int getId() {
@@ -70,6 +79,26 @@ public class Transaction {
 
     public void setType(TransactionType type) {
         this.type = type;
+    }
+
+    public String getAmountInfo() {
+        return CurrencyUtility.getFormattedCurrency(amount);
+    }
+
+    public String getTransactionInfo() {
+        return note;
+}
+
+    public String getHourInfo() {
+        return DateUtilities.getHourInfo(date);
+    }
+
+    public String getDateRelationInfo() {
+        return DateUtilities.getDateRelation(date);
+    }
+
+    public int getIcon() {
+        return type.getIcon();
     }
 
 }

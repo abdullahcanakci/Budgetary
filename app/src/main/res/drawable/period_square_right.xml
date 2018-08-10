@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="@color/summary_income_color" android:width="2dp"/>
+    <solid android:color="@color/summary_income_color" />
+    <corners android:bottomRightRadius="20dp" android:topRightRadius="20dp" />
+</shape>

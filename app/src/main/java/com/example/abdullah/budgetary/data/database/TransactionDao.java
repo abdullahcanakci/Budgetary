@@ -26,10 +26,10 @@ public interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE id = :id")
     LiveData<Transaction> getTransaction(int id);
 
-    @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND isIncome = 't'")
+    @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND isIncome")
     LiveData<Double> getIncomeSummary(Date before);
 
-    @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND isIncome = 'f'")
+    @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND NOT(isIncome)")
     LiveData<Double> getExpenseSummary(Date before);
 
 
@@ -39,4 +39,6 @@ public interface TransactionDao {
     @Query("DELETE FROM transactions WHERE id = :id")
     void deleteTransaction(int id);
 
+    @Query("SELECT COUNT(id) FROM transactions")
+    int getCount();
 }

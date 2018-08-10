@@ -70,4 +70,7 @@ public enum TransactionType {
         return null;
     }
 
+    public int getIcon() {
+        return R.drawable.money;
+    }
 }

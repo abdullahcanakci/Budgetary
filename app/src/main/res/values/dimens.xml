@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TRANSACTION LIST ITEM VIEW-->
+    <dimen name="transaction_list_item_height">48dp</dimen>
+    <dimen name="transaction_list_item_date_width">120dp</dimen>
+    <dimen name="transaction_list_item_icon_width">48dp</dimen>
+    <dimen name="period_summary_height">48dp</dimen>
+</resources>
