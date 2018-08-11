@@ -6,13 +6,13 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.data.database.converters.DateConverter;
-import com.example.abdullah.budgetary.data.database.converters.TransactionTypeConverter;
 
 
-@Database(entities = {Transaction.class}, version = 1, exportSchema = false)
-@TypeConverters({DateConverter.class, TransactionTypeConverter.class})
+@Database(entities = {Transaction.class, Category.class}, version = 1, exportSchema = false)
+@TypeConverters({DateConverter.class})
 public abstract class BudgetaryDatabase extends RoomDatabase{
     private static final String DATABASE_NAME = "budgetary";
     private static final Object LOCK = new Object();
@@ -20,6 +20,7 @@ public abstract class BudgetaryDatabase extends RoomDatabase{
 
     //DAO'S
     public abstract TransactionDao transactionDao();
+    public abstract CategoryDao categoryDao();
 
     public static BudgetaryDatabase getInstance(Context context) {
         if(sInstance == null) {

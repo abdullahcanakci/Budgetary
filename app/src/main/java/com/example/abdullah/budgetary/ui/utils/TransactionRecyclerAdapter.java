@@ -38,11 +38,11 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     }
 
     public void updateList(List<Transaction> newTransactions) {
-        if (newTransactions == null) {
+        if (newTransactions == null || newTransactions.size() == 0) {
             return;
         }
         List<Transaction> newList = newTransactions.subList(0,
-                newTransactions.size() > 10 ? 10 : newTransactions.size()-1);
+                newTransactions.size() > 10 ? 10 : newTransactions.size());
         TransactionDiffUtilCallback diff = new TransactionDiffUtilCallback(transactions, newList);
         DiffUtil.DiffResult diffResult=  DiffUtil.calculateDiff(diff, true);
         diffResult.dispatchUpdatesTo(this);

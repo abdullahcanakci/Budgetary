@@ -1,12 +1,14 @@
 package com.example.abdullah.budgetary.utilities;
 
+import android.text.format.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class DateUtilities {
     public static Date now() {
-        return new Date();
+        return new Date(nowMilli());
     }
 
     public static Date periodStart() {
@@ -19,7 +21,10 @@ public class DateUtilities {
     }
 
     public static String getDateRelation(Date date) {
-        //TODO Create a relation method
-        return "Relation";
+        return String.valueOf(DateUtils.getRelativeTimeSpanString(date.getTime(),  nowMilli(), DateUtils.DAY_IN_MILLIS));
+    }
+
+    private static long nowMilli() {
+        return System.currentTimeMillis();
     }
 }
