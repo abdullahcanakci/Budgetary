@@ -1,6 +1,5 @@
 package com.example.abdullah.budgetary.ui.utils;
 
-import android.arch.lifecycle.LiveData;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -18,6 +17,11 @@ import static android.view.LayoutInflater.from;
 
 public class TransactionRecyclerAdapter extends RecyclerView.Adapter<TransactionHolder> {
     private List<Transaction> transactions;
+    private int numberOfItems;
+
+    public TransactionRecyclerAdapter(int numberOfItems) {
+        this.numberOfItems = numberOfItems;
+    }
 
     @NonNull
     @Override
@@ -42,7 +46,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             return;
         }
         List<Transaction> newList = newTransactions.subList(0,
-                newTransactions.size() > 10 ? 10 : newTransactions.size());
+                newTransactions.size() > numberOfItems ? numberOfItems : newTransactions.size());
         TransactionDiffUtilCallback diff = new TransactionDiffUtilCallback(transactions, newList);
         DiffUtil.DiffResult diffResult=  DiffUtil.calculateDiff(diff, true);
         diffResult.dispatchUpdatesTo(this);
