@@ -35,8 +35,6 @@ public class PieSlice extends View{
 
     public PieSlice(Context context) {
         super(context);
-        setMinimumWidth(200);
-        setMinimumHeight(200);
         centerPoint = new Point(0,0);
         innerRect = new RectF();
         outerRect = new RectF();
@@ -62,7 +60,9 @@ public class PieSlice extends View{
 
     @Override
     public boolean equals(Object obj) {
-        return ((PieSlice) obj).sliceData.getCategoryId() == sliceData.getCategoryId();
+        if(obj != null)
+            return ((PieSlice) obj).sliceData.getCategoryId() == sliceData.getCategoryId();
+        return false;
     }
 
     @Override
@@ -104,12 +104,21 @@ public class PieSlice extends View{
     }
     public void selectionAnimation(boolean isExpanding) {
         ValueAnimator anim;
+        float startValue;
+        float endValue;
         if(isExpanding) {
-            anim = ValueAnimator.ofFloat(0, 1.0f);
+            startValue = 0.0f;
+            endValue = 1.0f;
+            if(focus != 0.0f)
+                startValue = focus;
         } else {
-            anim = ValueAnimator.ofFloat(1.0f, 0);
+            startValue = 1.0f;
+            endValue = 0.0f;
+            if(focus != 0.0f)
+                startValue = focus;
         }
 
+        anim = ValueAnimator.ofFloat(startValue, endValue);
         anim.setEvaluator(new FloatEvaluator());
         anim.setDuration(500);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -158,8 +167,11 @@ public class PieSlice extends View{
         return this.sliceData;
     }
 
-    public void onTouch(boolean expand) {
-        if (focus == 1.0f) selectionAnimation(!expand);
-        if(focus == 0.0f) selectionAnimation(expand);
+    public void shrink() {
+        selectionAnimation(false);
+    }
+
+    public void expand() {
+        selectionAnimation(true);
     }
 }
