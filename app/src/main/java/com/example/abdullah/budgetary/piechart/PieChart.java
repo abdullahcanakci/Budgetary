@@ -7,20 +7,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.abdullah.budgetary.piechart.data.PieData;
-
-import java.util.List;
+import com.example.abdullah.budgetary.piechart.interfaces.PieChartInterface;
 
 public class PieChart extends ViewGroup implements View.OnTouchListener{
-    PieData data;
     boolean isLegendVisible = false;
     boolean isBuilt = false;
     private PieSlice sliceInFocus = null;
+    private PieChartInterface listener;
+    private PieChartAdapter adapter;
+    private int startOffset;
 
     public PieChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
-        data = new PieData();
         this.setOnTouchListener(this);
     }
 
@@ -31,8 +30,7 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            int degree = calculateTouchAngle(event.getX(), event.getY());
-            dragOrigin = degree;
+            dragOrigin = calculateTouchAngle(event.getX(), event.getY());
             return true;
         }
 
@@ -53,8 +51,9 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
             }
             Log.d("Drag", "Delta: " + delta + " Origin: " + dragOrigin);
             if(delta != 0) {
-                data.setStartOffset(delta);
+                startOffset += delta;
                 dragDirection = delta;
+                refreshView();
             }
             return true;
         }
@@ -64,7 +63,7 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
                 calculateTouchSlice(degree);
             }
             if(inDrag) {
-                data.startDragDrift(dragDirection);
+                //TODO drift
             }
             inDrag = false;
             dragOrigin = -1;
@@ -77,6 +76,22 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
     @Override
     public boolean performClick() {
         return super.performClick();
+    }
+
+    private void refreshView() {
+        calculateAngles();
+        for(PieSlice s: adapter.slices){
+            s.invalidate();
+        }
+    }
+
+    public void updateView() {
+        calculateAngles();
+        this.removeAllViews();
+        for(PieSlice p : adapter.slices) {
+            this.addView(p);
+        }
+        invalidate();
     }
 
     private int calculateTouchAngle(float x, float y) {
@@ -96,32 +111,87 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
     }
 
     private synchronized void calculateTouchSlice(int degree) {
-        PieSlice clickedSlice = data.getSliceAtDegree(degree);
-        if (clickedSlice == null)
-            return;
+        PieSlice clickedSlice = getSliceAtDegree(degree);
 
-        if(sliceInFocus == null) {
+            if (clickedSlice == null)
+                return;
+
+            if (sliceInFocus == null) {
+                sliceInFocus = clickedSlice;
+                sliceInFocus.expand();
+                listener.onSliceFocusEntry(sliceInFocus.getSliceId());
+                return;
+            }
+
+            if (sliceInFocus == clickedSlice) {
+                sliceInFocus.shrink();
+                listener.onSliceFocusExit(sliceInFocus.getSliceId());
+                sliceInFocus = null;
+                return;
+            }
+            sliceInFocus.shrink();
             sliceInFocus = clickedSlice;
             sliceInFocus.expand();
-            return;
-        }
+            listener.onSliceFocusEntry(sliceInFocus.getSliceId());
 
-        if(sliceInFocus == clickedSlice) {
-            sliceInFocus.shrink();
-            sliceInFocus = null;
-            return;
-        }
-        sliceInFocus.shrink();
-        sliceInFocus = clickedSlice;
-        sliceInFocus.expand();
     }
+
+    public PieSlice getSliceAtDegree(int degree) {
+        int start = 0;
+        int end = 0;
+        for(PieSlice p : adapter.slices) {
+            start = p.getStartAngle();
+            end = p.getSweepAngle() + start;
+            if (end > 360){
+                end %= 360;
+                if(degree > start && degree <= 360 || degree > 0 && degree <= end)
+                    return p;
+            }
+            else {
+                if(degree > start && degree <= end)
+                    return p;
+            }
+        }
+        return null;
+    }
+
+    private void calculateAngles() {
+        //int startAngle = -90; //Start from the top
+        double total = adapter.getTotalValue();
+        int degreePerSliceData = ((int) (360 % total));
+        int startAngle = startOffset;
+        if(startAngle < 0)
+            startAngle += 360;
+        startAngle %= 360;
+        int remainingDegree = 360;
+
+        degreePerSliceData = ((int) (360 / total));
+
+        int itemCount = adapter.getItemCount();
+
+        for(int i = 0; i < itemCount; i++) {
+            PieSlice slice = adapter.slices.get(i);
+            int sliceSweep = ((int) (adapter.getValue(i) * degreePerSliceData));
+            if (i == itemCount - 1) {
+                slice.setStartAngle(startAngle);
+                slice.setSweepAngle(remainingDegree);
+                slice.setEndAngle(startAngle + remainingDegree);
+                return;
+            }
+            slice.setStartAngle(startAngle);
+            slice.setSweepAngle(sliceSweep);
+            remainingDegree -= sliceSweep;
+            startAngle += sliceSweep;
+            slice.setEndAngle(startAngle);
+        }
+    }
+
+
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        for(PieSlice view: data.getSlices()) {
-            //view.invalidate(l,t,r,b);
-            view.layout(l,t,r,b);
-            view.startAnimation();
+        for(int i = 0; i < adapter.getItemCount(); i++) {
+            adapter.slices.get(i).layout(l, t, r, b);
         }
     }
 
@@ -145,23 +215,19 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
         invalidate();
     }
 
-    public boolean addSlice(PieSlice slice) {
-        if(data.addSlice(slice)) {
-            this.addView(slice);
-            data.update();
-            invalidate();
-            return true;
-        }
-        return false;
+
+
+    public void setChartListener(PieChartInterface listener) {
+        this.listener = listener;
     }
 
-    public boolean[] addSlice(List<PieSlice> slices) {
-        boolean[] result = new boolean[slices.size()];
+    public void setPieSliceAdapter(PieChartAdapter adapter) {
+        this.adapter = adapter;
+        this.adapter.setChart(this);
+    }
 
-        for(int i = 0; i < slices.size(); i++) {
-            result[i] = addSlice(slices.get(i));
-        }
-        return result;
+    public PieSlice getNewSliceInstance() {
+        return new PieSlice(this.getContext());
     }
 
 

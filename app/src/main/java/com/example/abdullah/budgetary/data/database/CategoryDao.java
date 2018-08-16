@@ -16,12 +16,16 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Category... category);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<Category> categories);
+
     @Delete
     void deleteCategory(Category category);
 
     @Query("SELECT * FROM categories")
     LiveData<List<Category>> getCategories();
 
+
     @Query("DELETE FROM categories WHERE id = :id")
-    void deleteCategory(int id);
+    void deleteCategory(long id);
 }

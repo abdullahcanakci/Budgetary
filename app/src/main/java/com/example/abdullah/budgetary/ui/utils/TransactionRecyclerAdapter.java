@@ -11,18 +11,13 @@ import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.databinding.LayoutTransactionListViewBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.LayoutInflater.from;
 
 public class TransactionRecyclerAdapter extends RecyclerView.Adapter<TransactionHolder> {
-    private List<Transaction> transactions;
-    private int numberOfItems;
-
-    public TransactionRecyclerAdapter(int numberOfItems) {
-        this.numberOfItems = numberOfItems;
-    }
-
+    private List<Transaction> activeList;
     @NonNull
     @Override
     public TransactionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,24 +28,25 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     @Override
     public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
-        holder.bind(transactions.get(position));
+        holder.bind(activeList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return transactions == null ? 0 : transactions.size();
+        return activeList == null ? 0 : activeList.size();
     }
 
     public void updateList(List<Transaction> newTransactions) {
         if (newTransactions == null || newTransactions.size() == 0) {
             return;
         }
-        List<Transaction> newList = newTransactions.subList(0,
-                newTransactions.size() > numberOfItems ? numberOfItems : newTransactions.size());
-        TransactionDiffUtilCallback diff = new TransactionDiffUtilCallback(transactions, newList);
-        DiffUtil.DiffResult diffResult=  DiffUtil.calculateDiff(diff, true);
-        diffResult.dispatchUpdatesTo(this);
-        transactions = newList;
+
+        TransactionDiffUtilCallback diff = new TransactionDiffUtilCallback(activeList, newTransactions);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diff, true);
+        result.dispatchUpdatesTo(this);
+
+        activeList = newTransactions;
     }
+
 
 }

@@ -2,11 +2,9 @@ package com.example.abdullah.budgetary.data;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.utilities.CurrencyUtility;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 
@@ -15,7 +13,7 @@ import java.util.Date;
 @Entity(tableName = "transactions")
 public class Transaction {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
 
     private Date date;
@@ -25,7 +23,7 @@ public class Transaction {
     @Embedded(prefix = "cat_")
     private Category category;
 
-    public Transaction(int id, Date date, String note, boolean isIncome, double amount, Category category) {
+    public Transaction(long id, Date date, String note, boolean isIncome, double amount, Category category) {
         this.id = id;
         this.date = date;
         this.note = note;
@@ -39,7 +37,7 @@ public class Transaction {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

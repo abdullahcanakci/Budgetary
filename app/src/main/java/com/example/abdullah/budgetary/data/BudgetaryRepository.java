@@ -25,7 +25,7 @@ public class BudgetaryRepository {
     private LiveData<Double> incomeSummary = new MutableLiveData<>();
     private boolean isInitialized = false;
 
-    private BudgetaryRepository(TransactionDao transactionDao, CategoryDao categoryDao, AppExecutors appExecutors) {
+    private BudgetaryRepository(TransactionDao transactionDao, CategoryDao categoryDao,AppExecutors appExecutors) {
         this.transactionDao = transactionDao;
         this.categoryDao = categoryDao;
         this.executors = appExecutors;
@@ -54,7 +54,7 @@ public class BudgetaryRepository {
     }
 
     public LiveData<List<Transaction>> getTransactions() {
-        if (isInitialized)
+        if (!isInitialized)
             initializeData();
         return transactions;
 
@@ -69,7 +69,7 @@ public class BudgetaryRepository {
     }
 
     public LiveData<Double> getExpenseSummary() {
-        if (isInitialized)
+        if (!isInitialized)
             initializeData();
         return expenseSummary;
 
@@ -85,5 +85,23 @@ public class BudgetaryRepository {
         executors.diskIO().execute(() -> {
             categoryDao.insert(category);
         });
+    }
+
+    public void addCategories(List<Category> categories){
+        executors.diskIO().execute(() -> {
+            categoryDao.insert(categories);
+        });
+    }
+
+    public LiveData<List<Category>> getCategories() {
+        return categoryDao.getCategories();
+    }
+
+    public LiveData<List<Transaction>> getTransactionsByCategory(long id, int limit) {
+        return transactionDao.getTransactionsByCategory(id, limit);
+    }
+
+    public LiveData<List<Transaction>> getTransactions(int limit){
+        return transactionDao.getTransactions(limit);
     }
 }

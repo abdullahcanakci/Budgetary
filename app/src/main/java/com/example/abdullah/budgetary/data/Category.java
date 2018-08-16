@@ -9,7 +9,7 @@ import com.example.abdullah.budgetary.R;
 @Entity(tableName = "categories")
 public class Category {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     private String name;
     private boolean isIncome;
@@ -18,7 +18,7 @@ public class Category {
     private int backgroundColor;
     private String description;
 
-    public Category(int id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description){
+    public Category(long id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description){
         this.id = id;
         this.name = name;
         this.isIncome = isIncome;
@@ -31,11 +31,11 @@ public class Category {
     @Ignore
     public Category() { }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -85,5 +85,9 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getValue() {
+        return 25.0;
     }
 }

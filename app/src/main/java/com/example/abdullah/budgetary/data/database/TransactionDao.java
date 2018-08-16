@@ -24,7 +24,7 @@ public interface TransactionDao {
     LiveData<List<Transaction>> getTransactionsBetweenDates(Date before, Date after);
 
     @Query("SELECT * FROM transactions WHERE id = :id")
-    LiveData<Transaction> getTransaction(int id);
+    LiveData<Transaction> getTransaction(long id);
 
     @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND isIncome")
     LiveData<Double> getIncomeSummary(Date before);
@@ -37,8 +37,14 @@ public interface TransactionDao {
     void delete(Transaction transaction);
 
     @Query("DELETE FROM transactions WHERE id = :id")
-    void deleteTransaction(int id);
+    void deleteTransaction(long id);
 
     @Query("SELECT COUNT(id) FROM transactions")
     int getCount();
+
+    @Query("SELECT * FROM transactions WHERE cat_id = :id ORDER BY date DESC LIMIT :limit")
+    LiveData<List<Transaction>> getTransactionsByCategory(long id, int limit);
+
+    @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit")
+    LiveData<List<Transaction>> getTransactions(int limit);
 }
