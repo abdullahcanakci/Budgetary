@@ -17,6 +17,7 @@ public class Category {
     private int resId;
     private int backgroundColor;
     private String description;
+    private double value;
 
     public Category(long id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description){
         this.id = id;
@@ -88,6 +89,10 @@ public class Category {
     }
 
     public double getValue() {
-        return 25.0;
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }

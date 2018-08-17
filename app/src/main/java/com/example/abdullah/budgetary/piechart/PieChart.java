@@ -137,14 +137,14 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
     }
 
     public PieSlice getSliceAtDegree(int degree) {
-        int start = 0;
-        int end = 0;
+        float start = 0;
+        float end = 0;
         for(PieSlice p : adapter.slices) {
             start = p.getStartAngle();
             end = p.getSweepAngle() + start;
-            if (end > 360){
-                end %= 360;
-                if(degree > start && degree <= 360 || degree > 0 && degree <= end)
+            if (end > 360.0f){
+                end %= 360.0f;
+                if(degree > start && degree <= 360.0f || degree > 0.0f && degree <= end)
                     return p;
             }
             else {
@@ -158,26 +158,26 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
     private void calculateAngles() {
         //int startAngle = -90; //Start from the top
         double total = adapter.getTotalValue();
-        int degreePerSliceData = ((int) (360 % total));
-        int startAngle = startOffset;
-        if(startAngle < 0)
-            startAngle += 360;
-        startAngle %= 360;
-        int remainingDegree = 360;
+        float degreePerSliceData = ((float) (360.0f / total));
+        float startAngle = startOffset;
+        if(startAngle < 0.0f)
+            startAngle += 360.0f;
+        startAngle %= 360.0f;
+        float remainingDegree = 360.0f;
 
-        degreePerSliceData = ((int) (360 / total));
+        degreePerSliceData = ((float) (360 / total));
 
         int itemCount = adapter.getItemCount();
 
         for(int i = 0; i < itemCount; i++) {
             PieSlice slice = adapter.slices.get(i);
-            int sliceSweep = ((int) (adapter.getValue(i) * degreePerSliceData));
-            if (i == itemCount - 1) {
+            float sliceSweep = ((float) (adapter.getValue(i) * degreePerSliceData));
+            /*if (i == itemCount - 1) {
                 slice.setStartAngle(startAngle);
                 slice.setSweepAngle(remainingDegree);
                 slice.setEndAngle(startAngle + remainingDegree);
                 return;
-            }
+            }*/
             slice.setStartAngle(startAngle);
             slice.setSweepAngle(sliceSweep);
             remainingDegree -= sliceSweep;

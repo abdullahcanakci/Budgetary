@@ -9,6 +9,7 @@ import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
+import com.example.abdullah.budgetary.utilities.AppExecutors;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
@@ -76,4 +77,5 @@ public class MainActivity extends AppCompatActivity {
     private Category getRandomCategory() {
         return categories.get(new Random().nextInt(categories.size()));
     }
+
 }

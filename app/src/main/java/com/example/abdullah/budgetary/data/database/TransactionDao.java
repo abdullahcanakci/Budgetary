@@ -47,4 +47,7 @@ public interface TransactionDao {
 
     @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit")
     LiveData<List<Transaction>> getTransactions(int limit);
+
+    @Query("SELECT SUM(amount) FROM TRANSACTIONS WHERE cat_id = :id AND date > :date")
+    double getExpenseSummaryByCategory(long id, Date date);
 }

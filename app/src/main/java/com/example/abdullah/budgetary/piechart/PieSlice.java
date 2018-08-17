@@ -28,10 +28,10 @@ public class PieSlice extends View{
     private Paint paintFill;
     private Paint paintBorder;
 
-    private int endAngle = 0;
-    private int startAngle = 0;
-    private int animationStatusAngle = 0;
-    private int sweepAngle = 0;
+    private float endAngle = 0;
+    private float startAngle = 0;
+    private float animationStatusAngle = 0;
+    private float sweepAngle = 0;
 
     private float focus = 0.0f;
     private Path path;
@@ -85,13 +85,13 @@ public class PieSlice extends View{
     }
 
     public void startAnimation() {
-        ValueAnimator anim = ValueAnimator.ofInt(startAngle, endAngle);
-        anim.setEvaluator(new IntEvaluator());
+        ValueAnimator anim = ValueAnimator.ofFloat(startAngle, endAngle);
+        anim.setEvaluator(new FloatEvaluator());
         anim.setDuration(1000);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                animationStatusAngle = ((int) animation.getAnimatedValue());
+                animationStatusAngle = (float) animation.getAnimatedValue();
                 invalidate();
             }
         });
@@ -150,27 +150,27 @@ public class PieSlice extends View{
         selectionAnimation(true);
     }
 
-    protected void setStartAngle(int angle) {
+    protected void setStartAngle(float angle) {
         this.startAngle = angle;
     }
 
-    protected int getStartAngle() {
+    protected float getStartAngle() {
         return startAngle;
     }
 
-    protected void setEndAngle(int angle) {
+    protected void setEndAngle(float angle) {
         this.endAngle = angle;
     }
 
-    protected int getEndAngle() {
+    protected float getEndAngle() {
         return endAngle;
     }
 
-    protected void setSweepAngle(int angle) {
+    protected void setSweepAngle(float angle) {
         this.sweepAngle = angle;
     }
 
-    protected int getSweepAngle() {
+    protected float getSweepAngle() {
         return sweepAngle;
     }
 

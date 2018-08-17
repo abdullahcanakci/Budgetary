@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.abdullah.budgetary.R;
+import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.databinding.FragmentMainBinding;
 import com.example.abdullah.budgetary.piechart.PieChart;
 import com.example.abdullah.budgetary.piechart.interfaces.PieChartInterface;
 import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
+import com.example.abdullah.budgetary.utilities.AppExecutors;
 import com.example.abdullah.budgetary.utilities.ChartAdapter;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
@@ -28,6 +30,7 @@ public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment";
     MainFragmentViewModel mViewModel;
     private FragmentMainBinding binding;
+    ChartAdapter adapter;
     TransactionRecyclerAdapter recyclerAdapter = new TransactionRecyclerAdapter();
 
     @Override
@@ -59,11 +62,12 @@ public class MainFragment extends Fragment {
         mViewModel.getLastTransactions().observeForever((transactions) -> {
             Log.d(TAG, "name of the class " + transactions.getClass().getName());
             updateRecyclerList(transactions);
+            mViewModel.updateCat();
         });
 
         PieChart pieChart = binding.pieChart;
 
-        ChartAdapter adapter = new ChartAdapter();
+        adapter = new ChartAdapter();
         pieChart.setPieSliceAdapter(adapter);
 
 
@@ -83,6 +87,7 @@ public class MainFragment extends Fragment {
             }
         });
         mViewModel.getCategories().observeForever(categories -> {
+            //adapter.addSlices(categories);
             adapter.addSlices(categories);
         });
 

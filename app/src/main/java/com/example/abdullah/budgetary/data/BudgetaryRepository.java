@@ -60,21 +60,6 @@ public class BudgetaryRepository {
 
     }
 
-    public LiveData<Double> getIncomeSummary() {
-        if (!isInitialized)
-            initializeData();
-
-        return incomeSummary;
-
-    }
-
-    public LiveData<Double> getExpenseSummary() {
-        if (!isInitialized)
-            initializeData();
-        return expenseSummary;
-
-    }
-
     public void addTransaction(Transaction t) {
         executors.diskIO().execute(() -> {
             transactionDao.bulkInsert(t);
@@ -95,6 +80,10 @@ public class BudgetaryRepository {
 
     public LiveData<List<Category>> getCategories() {
         return categoryDao.getCategories();
+    }
+
+    public double getTransactionValueByCategory(long id) {
+        return transactionDao.getExpenseSummaryByCategory(id, DateUtilities.periodStart());
     }
 
     public LiveData<List<Transaction>> getTransactionsByCategory(long id, int limit) {

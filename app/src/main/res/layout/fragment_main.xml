@@ -27,24 +27,6 @@
                 android:layout_height="match_parent"/>
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{model.incomeSummary}" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{model.expenseSummary}" />
-
-        </LinearLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/transaction_summary_recycler"
             android:layout_width="match_parent"
