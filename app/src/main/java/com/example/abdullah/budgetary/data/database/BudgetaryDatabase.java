@@ -11,7 +11,7 @@ import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.data.database.converters.DateConverter;
 
 
-@Database(entities = {Transaction.class, Category.class}, version = 1, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 2, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class BudgetaryDatabase extends RoomDatabase{
     private static final String DATABASE_NAME = "budgetary";
@@ -32,6 +32,7 @@ public abstract class BudgetaryDatabase extends RoomDatabase{
         }
         return sInstance;
     }
+
 
 
 }

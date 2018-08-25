@@ -10,14 +10,8 @@
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/button_category"
+        app:layout_constraintBottom_toTopOf="@id/button_transaction"
         app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:id="@+id/button_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Category"
-        app:layout_constraintBottom_toTopOf="@id/button_transaction"/>
 
     <Button
         android:id="@+id/button_transaction"

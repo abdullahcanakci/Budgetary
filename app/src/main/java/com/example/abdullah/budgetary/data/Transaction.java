@@ -19,11 +19,11 @@ public class Transaction {
     private Date date;
     private String note;
     private boolean isIncome = true;
-    private double amount;
+    private Long amount;
     @Embedded(prefix = "cat_")
     private Category category;
 
-    public Transaction(long id, Date date, String note, boolean isIncome, double amount, Category category) {
+    public Transaction(long id, Date date, String note, boolean isIncome, Long amount, Category category) {
         this.id = id;
         this.date = date;
         this.note = note;
@@ -65,17 +65,17 @@ public class Transaction {
         isIncome = income;
     }
 
-    public double getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
 
     public String getAmountInfo() {
-        return CurrencyUtility.getFormattedCurrency(amount);
+        return String.valueOf(amount);
     }
 
     public String getTransactionInfo() {

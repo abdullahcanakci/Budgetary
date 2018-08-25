@@ -21,8 +21,8 @@ public class BudgetaryRepository {
     private final AppExecutors executors;
     private boolean mInitialized = false;
     private LiveData<List<Transaction>> transactions;
-    private LiveData<Double> expenseSummary;
-    private LiveData<Double> incomeSummary = new MutableLiveData<>();
+    private LiveData<Long> expenseSummary;
+    private LiveData<Long> incomeSummary = new MutableLiveData<>();
     private boolean isInitialized = false;
 
     private BudgetaryRepository(TransactionDao transactionDao, CategoryDao categoryDao,AppExecutors appExecutors) {
@@ -82,7 +82,7 @@ public class BudgetaryRepository {
         return categoryDao.getCategories();
     }
 
-    public double getTransactionValueByCategory(long id) {
+    public Long getTransactionValueByCategory(long id) {
         return transactionDao.getExpenseSummaryByCategory(id, DateUtilities.periodStart());
     }
 

@@ -9,6 +9,7 @@ import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
+import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
 import com.example.abdullah.budgetary.utilities.AppExecutors;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
@@ -33,18 +34,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
         }));
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
+        createRandomCategory();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.frame, NewTransactionFragment.getInstance()).commit();
 
         findViewById(R.id.button_transaction).setOnClickListener((View) -> {
-            mRepository.addTransaction(createRandomTransaction());
-        });
-        findViewById(R.id.button_category).setOnClickListener((View) -> {
-            createRandomCategory();
+            //mRepository.addTransaction(createRandomTransaction());
         });
     }
     private Transaction createRandomTransaction(){
         Random rand = new Random();
-        double amount = rand.nextDouble() * 100;
+        Long amount = rand.nextLong() * 100;
         boolean isIncome = rand.nextBoolean();
         Transaction transaction = new Transaction();
         try {

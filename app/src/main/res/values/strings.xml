@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Budgetary</string>
+    <string name="transaction_amount_hint">Amount</string>
+    <string name="confirm">Confirm</string>
 </resources>

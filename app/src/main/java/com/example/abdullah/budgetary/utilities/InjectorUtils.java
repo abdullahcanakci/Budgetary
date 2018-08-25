@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.database.BudgetaryDatabase;
 import com.example.abdullah.budgetary.ui.main.MainFragmentViewModelFactory;
+import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionViewModelFactory;
 
 public class InjectorUtils {
     public static BudgetaryRepository provideRepository(Context context) {
@@ -17,5 +18,10 @@ public class InjectorUtils {
     public static MainFragmentViewModelFactory provideMainViewModelFactory(Context context){
         BudgetaryRepository repository = provideRepository(context.getApplicationContext());
         return new MainFragmentViewModelFactory(repository);
+    }
+
+    public static NewTransactionViewModelFactory provideNewFragmentViewModelFactory(Context context) {
+        BudgetaryRepository repository = provideRepository(context.getApplicationContext());
+        return new NewTransactionViewModelFactory(repository);
     }
 }
