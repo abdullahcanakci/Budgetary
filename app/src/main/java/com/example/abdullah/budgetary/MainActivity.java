@@ -1,5 +1,6 @@
 package com.example.abdullah.budgetary;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -8,6 +9,7 @@ import android.util.Log;
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
+import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
 import com.example.abdullah.budgetary.utilities.AppExecutors;
@@ -34,12 +36,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
         }));
 
-        createRandomCategory();
+        //createRandomCategory();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, NewTransactionFragment.getInstance()).commit();
+        //getSupportFragmentManager().beginTransaction().add(R.id.frame, NewTransactionFragment.getInstance()).commit();
 
         findViewById(R.id.button_transaction).setOnClickListener((View) -> {
             //mRepository.addTransaction(createRandomTransaction());
+            CustomDialogFragment d = new CustomDialogFragment();
+            d.setButtons(R.string.confirm_button_text, null);
+            d.setTitle(R.string.dialog_title_new);
+            d.setFragment(NewTransactionFragment.getInstance());
+            d.show(getSupportFragmentManager(), "dialog");
         });
     }
     private Transaction createRandomTransaction(){

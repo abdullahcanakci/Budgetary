@@ -2,4 +2,13 @@
     <string name="app_name">Budgetary</string>
     <string name="transaction_amount_hint">Amount</string>
     <string name="confirm">Confirm</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="new_category_button">New Category</string>
+    <string name="category_selector">Expense</string>
+    <string name="dialog_title">Title</string>
+    <string name="button_close">Cancel Button</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="confirm_button_text">Confirm</string>
+    <string name="dialog_title_new">New Title</string>
 </resources>
