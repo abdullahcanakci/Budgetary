@@ -8,7 +8,7 @@ General app architecture is designed around MVVM. Data layer is implemented usin
 For starter app should be able to create, store and display transactions which were achieved shortly no matter the UI.
  - [X] Storing transactions
  - [X] Displaying transactions
- - [ ] Creating transactions (From users perspective)
+ - [X] Creating transactions (From users perspective)
 
 Second goal was to create some kind of overview for user to glimpse and understand overall status for the period. This will be mostly UI work but we may need few special Views. With this goal we should be able to have a summary UI.
  - [ ] Status overview
@@ -21,7 +21,7 @@ Third goal is to create details for a period and probably implement paging, beca
 And lastly we come to the User Interaction, until this point I won't probably implement anything that an end user could use.  I'm thinking of pop-ups for transaction creation and details, and bottom bar for navigation and extras that needs it. While implementing this implement an about section and start adding copyright notices.
 
  - [ ] Transaction details
- - [ ] Transaction creation
+ - [X] Transaction creation
  - [ ] Bottom bar navigation
  - [ ] About section
 
