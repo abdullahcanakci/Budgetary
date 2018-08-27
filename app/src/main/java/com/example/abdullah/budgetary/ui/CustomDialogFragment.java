@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.abdullah.budgetary.R;
+import com.example.abdullah.budgetary.ui.utils.DialogInteractionInterface;
 
 public class CustomDialogFragment extends DialogFragment {
     private TextView titleView;
@@ -26,6 +27,8 @@ public class CustomDialogFragment extends DialogFragment {
     private ImageButton buttonClose;
     private boolean isInitialized = false;
 
+    private DialogInteractionInterface listener = null;
+
     private Integer titleResId;
     private Integer confirmTextResId;
     private Integer cancelTextResId;
@@ -33,6 +36,9 @@ public class CustomDialogFragment extends DialogFragment {
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
+        if(this.fragment instanceof DialogInteractionInterface) {
+            listener = ((DialogInteractionInterface) fragment);
+        }
         if(!isInitialized) {
             updateContainer();
         }
@@ -93,8 +99,27 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
     private void bindButtons() {
-        buttonCancel.setOnClickListener((view -> this.dismiss()));
-        buttonClose.setOnClickListener((view-> this.dismiss()));
+        buttonCancel.setOnClickListener((view -> {
+            if(listener != null)
+                listener.onCancel();
+            this.dismiss();
+        }));
+        buttonClose.setOnClickListener((view -> {
+           if(listener != null)
+               listener.onCancel();
+           this.dismiss();
+        }));
+        buttonConfirm.setOnClickListener(view -> {
+            if(listener != null) {
+                if(listener.onConfirm()) {
+                    this.dismiss();
+                } else {
+                    return;
+                }
+            }
+            this.dismiss();
+        });
+
     }
 
     private void fillViews() {
