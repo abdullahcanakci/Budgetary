@@ -93,4 +93,8 @@ public class BudgetaryRepository {
     public LiveData<List<Transaction>> getTransactions(int limit){
         return transactionDao.getTransactions(limit);
     }
+
+    public LiveData<List<Category>> getCategoryByType(Boolean isExpense) {
+        return categoryDao.getCategoriesByType(isExpense, !isExpense);
+    }
 }

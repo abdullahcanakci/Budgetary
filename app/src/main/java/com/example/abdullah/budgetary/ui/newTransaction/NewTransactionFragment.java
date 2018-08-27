@@ -6,21 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.blackcat.currencyedittext.CurrencyEditText;
 import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.databinding.FragmentTransactionAddBinding;
 import com.example.abdullah.budgetary.ui.utils.CategoryRecyclerAdapter;
 import com.example.abdullah.budgetary.ui.utils.DialogInteractionInterface;
-import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
-import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -29,6 +23,7 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
     FragmentTransactionAddBinding binding;
     CategoryRecyclerAdapter adapter;
     NewTransactionViewModel model;
+    boolean isExpense = true;
 
     public static Fragment getInstance() {
         return new NewTransactionFragment();
@@ -47,6 +42,10 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
         });
     }
 
+    private void updateList(){
+        model.setCategoryType(isExpense);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +56,10 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
         manager.setJustifyContent(JustifyContent.SPACE_AROUND);
         binding.categoryRecycler.setLayoutManager(manager);
         binding.categoryRecycler.setAdapter(adapter);
+        binding.categorySwitch.setOnCheckedChangeListener((view, var) -> {
+            model.setCategoryType(view.isChecked());
+        });
+
         adapter.notifyDataSetChanged();
         return binding.getRoot();
     }

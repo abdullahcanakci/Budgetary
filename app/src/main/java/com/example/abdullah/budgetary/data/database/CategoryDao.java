@@ -28,4 +28,7 @@ public interface CategoryDao {
 
     @Query("DELETE FROM categories WHERE id = :id")
     void deleteCategory(long id);
+
+    @Query("SELECT * FROM categories WHERE isExpense = :isExpense OR isIncome = :isIncome")
+    LiveData<List<Category>> getCategoriesByType(Boolean isExpense, Boolean isIncome);
 }
