@@ -63,6 +63,7 @@ public class BudgetaryRepository {
     public void addTransaction(Transaction t) {
         executors.diskIO().execute(() -> {
             transactionDao.bulkInsert(t);
+            categoryDao.updateCategoryValue(t.getCategory().getId(), t.getAmount() + t.getCategory().getValue());
         });
     }
 

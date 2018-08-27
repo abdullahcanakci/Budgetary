@@ -172,12 +172,9 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
         for(int i = 0; i < itemCount; i++) {
             PieSlice slice = adapter.slices.get(i);
             float sliceSweep = ((float) (adapter.getValue(i) * degreePerSliceData));
-            /*if (i == itemCount - 1) {
-                slice.setStartAngle(startAngle);
-                slice.setSweepAngle(remainingDegree);
-                slice.setEndAngle(startAngle + remainingDegree);
-                return;
-            }*/
+            if(sliceSweep == 0.0f) {
+                continue;
+            }
             slice.setStartAngle(startAngle);
             slice.setSweepAngle(sliceSweep);
             remainingDegree -= sliceSweep;

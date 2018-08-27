@@ -31,4 +31,7 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM categories WHERE isExpense = :isExpense OR isIncome = :isIncome")
     LiveData<List<Category>> getCategoriesByType(Boolean isExpense, Boolean isIncome);
+
+    @Query("UPDATE categories SET value = :amount WHERE id = :id")
+    void updateCategoryValue(long id, Long amount);
 }

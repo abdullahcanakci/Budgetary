@@ -17,9 +17,9 @@ public class Category {
     private int resId;
     private int backgroundColor;
     private String description;
-    private double value;
+    private long value = 0L;
 
-    public Category(long id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description){
+    public Category(long id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description, long value){
         this.id = id;
         this.name = name;
         this.isIncome = isIncome;
@@ -27,6 +27,7 @@ public class Category {
         this.resId = resId;
         this.backgroundColor = backgroundColor;
         this.description = description;
+        this.value = value;
     }
 
     @Ignore
@@ -88,11 +89,11 @@ public class Category {
         this.description = description;
     }
 
-    public double getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(long value) {
         this.value = value;
     }
 }
