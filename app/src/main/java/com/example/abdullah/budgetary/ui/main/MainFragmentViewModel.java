@@ -15,16 +15,12 @@ import java.util.List;
 public class MainFragmentViewModel extends ViewModel {
 
     private LiveData<List<Transaction>> transactions;
-    private MutableLiveData<List<Category>> cat = new MutableLiveData<>();
+    private LiveData<List<Category>> categories;
     private BudgetaryRepository repo;
 
     MainFragmentViewModel(BudgetaryRepository repository) {
         transactions = repository.getTransactions();
-        LiveData<List<Category>> categories = repository.getCategories();
-        categories.observeForever((c) -> {
-            cat.setValue(c);
-            updateCategoryValuation();
-        });
+        categories = repository.getCategories();
         repo =repository;
     }
 
@@ -33,8 +29,8 @@ public class MainFragmentViewModel extends ViewModel {
         return transactions;
     }
 
-    public MutableLiveData<List<Category>> getCategories() {
-        return cat;
+    public LiveData<List<Category>> getCategories() {
+        return categories;
     }
 
     public LiveData<List<Transaction>> setCategoryFocus(long categoryFocus) {
@@ -45,24 +41,7 @@ public class MainFragmentViewModel extends ViewModel {
         return repo.getTransactions(10);
     }
 
-    public double getCategoryValue(long id) {
+    public Long getCategoryValue(long id) {
         return repo.getTransactionValueByCategory(id);
-    }
-
-    private void updateCategoryValuation() {
-        if(cat.getValue() == null)
-            return;
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            List<Category> cats = new ArrayList<>();
-            for(Category c : cat.getValue()) {
-                c.setValue(getCategoryValue(c.getId()));
-                cats.add(c);
-            }
-            cat.postValue(cats);
-        });
-    }
-
-    public void updateCat() {
-        updateCategoryValuation();
     }
 }

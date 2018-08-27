@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         //createRandomCategory();
 
-        //getSupportFragmentManager().beginTransaction().add(R.id.frame, NewTransactionFragment.getInstance()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
 
         findViewById(R.id.button_transaction).setOnClickListener((View) -> {
             //mRepository.addTransaction(createRandomTransaction());

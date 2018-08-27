@@ -2,6 +2,7 @@ package com.example.abdullah.budgetary.utilities;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.view.View;
 
 import com.blackcat.currencyedittext.CurrencyTextFormatter;
 

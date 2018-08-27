@@ -44,10 +44,6 @@ public class MainFragment extends Fragment {
         return new MainFragment();
     }
 
-    private void bindUI() {
-        binding.setModel(mViewModel);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,7 +58,6 @@ public class MainFragment extends Fragment {
         mViewModel.getLastTransactions().observeForever((transactions) -> {
             Log.d(TAG, "name of the class " + transactions.getClass().getName());
             updateRecyclerList(transactions);
-            mViewModel.updateCat();
         });
 
         PieChart pieChart = binding.pieChart;

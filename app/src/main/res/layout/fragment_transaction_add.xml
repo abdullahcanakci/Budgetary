@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="model"
@@ -39,7 +40,7 @@
             android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@id/category_recycler"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/error_view"
             />
 
         <Switch
@@ -52,6 +53,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/category_recycler"
             app:layout_constraintBottom_toBottomOf="@id/category_new_button"
+            />
+
+        <TextView
+            android:id="@+id/error_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            android:drawableStart="@drawable/ic_error_outline_red_500_24dp"
+            android:drawablePadding="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Error!"
             />
 
 

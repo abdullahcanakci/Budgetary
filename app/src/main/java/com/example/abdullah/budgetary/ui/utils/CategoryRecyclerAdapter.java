@@ -16,11 +16,14 @@ import java.util.List;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     List<Category> categories = new ArrayList<>();
+    private Category selectedCategory = null;
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         CardCategoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), R.layout.card_category, viewGroup, false);
-
+        binding.getRoot().setOnClickListener((view) -> {
+            this.selectedCategory = binding.getCategory();
+        });
         return new CategoryViewHolder(binding);
     }
 
@@ -28,6 +31,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
         if (categories!= null)
             categoryViewHolder.bind(categories.get(i));
+
     }
 
     public void updateList(List<Category> categories) {
@@ -45,5 +49,9 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     @Override
     public int getItemCount() {
         return categories.size();
+    }
+
+    public Category getSelectedCategory() {
+        return selectedCategory;
     }
 }

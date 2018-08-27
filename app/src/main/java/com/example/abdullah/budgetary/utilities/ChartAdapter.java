@@ -19,8 +19,8 @@ public class ChartAdapter extends PieChartAdapter {
     }
 
     @Override
-    public double getValue(int index) {
-        return category.get(index).getValue();
+    public Long getValue(int index) {
+        return 25L;
     }
 
     @Override

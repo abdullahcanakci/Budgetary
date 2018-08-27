@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
+import com.example.abdullah.budgetary.data.Transaction;
 
 import java.util.List;
 
@@ -30,4 +31,7 @@ public class NewTransactionViewModel extends ViewModel {
         return categories;
     }
 
+    public void insert(Transaction t) {
+        repository.addTransaction(t);
+    }
 }

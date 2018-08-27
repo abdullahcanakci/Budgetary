@@ -11,4 +11,6 @@
     <string name="cancel_button_text">Cancel</string>
     <string name="confirm_button_text">Confirm</string>
     <string name="dialog_title_new">New Title</string>
+    <string name="no_category_error">No category selected! Please select one.</string>
+    <string name="no_amount_error">No currency detected! Please enter.</string>
 </resources>

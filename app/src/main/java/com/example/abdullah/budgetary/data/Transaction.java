@@ -4,7 +4,9 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.widget.TextView;
 
+import com.example.abdullah.budgetary.utilities.BindingUtils;
 import com.example.abdullah.budgetary.utilities.CurrencyUtility;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 
@@ -74,12 +76,12 @@ public class Transaction {
     }
 
 
-    public String getAmountInfo() {
-        return String.valueOf(amount);
+    public CustomLong getAmountInfo() {
+        return new CustomLong(amount);
     }
 
     public String getTransactionInfo() {
-        return note;
+        return "Lorem ipsum dolor sit amet";
 }
 
     public String getHourInfo() {

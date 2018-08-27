@@ -87,14 +87,16 @@ public class CustomDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog, container, false);
+        view.setPadding(16,16,16,16);
+
         buttonCancel = view.findViewById(R.id.dialog_button_cancel);
         buttonConfirm = view.findViewById(R.id.dialog_button_confirm);
         buttonClose = view.findViewById(R.id.dialog_button_close);
         this.container = view.findViewById(R.id.dialog_fragment_container);
         titleView = view.findViewById(R.id.dialog_title);
-        fillViews();
         bindButtons();
         isInitialized = true;
+        fillViews();
         return view;
     }
 

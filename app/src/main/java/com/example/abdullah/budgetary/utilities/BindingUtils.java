@@ -7,12 +7,12 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class BindingUtils {
-    @BindingAdapter({"android:text"})
-    public static void setText(TextView textView, LiveData<Long> data) {
-        textView.setText(new CurrencyFormatter(textView.getContext()).getFormattedCurrency(data.getValue()));
-    }
+import com.blackcat.currencyedittext.CurrencyTextFormatter;
+import com.example.abdullah.budgetary.data.CustomLong;
 
+import java.util.Locale;
+
+public class BindingUtils {
     @BindingAdapter({"android:src"})
     public static void setImageResource(ImageView imageView, int resourceId) {
         imageView.setImageResource(resourceId);
@@ -22,6 +22,13 @@ public class BindingUtils {
     public static void setDrawableColor(ImageView imageView, int resourceId) {
         int color = ContextCompat.getColor(imageView.getContext(), resourceId);
         imageView.getDrawable().setTint(color);
+    }
+
+    @BindingAdapter({"android:text"})
+    public static void setText(TextView view, CustomLong d) {
+        Locale locale = view.getResources().getConfiguration().locale;
+        String text = CurrencyTextFormatter.formatText(d.amount.toString(), locale);
+        view.setText(text);
     }
 
 }
