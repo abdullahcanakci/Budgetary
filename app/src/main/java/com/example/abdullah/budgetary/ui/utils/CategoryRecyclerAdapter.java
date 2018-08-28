@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.abdullah.budgetary.R;
@@ -15,14 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
-    List<Category> categories = new ArrayList<>();
-    private Category selectedCategory = null;
+    private List<Category> categories = new ArrayList<>();
+    private CardCategoryBinding selectedBinding = null;
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         CardCategoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), R.layout.card_category, viewGroup, false);
         binding.getRoot().setOnClickListener((view) -> {
-            this.selectedCategory = binding.getCategory();
+            if(selectedBinding != null)
+                selectedBinding.selected.setVisibility(View.INVISIBLE);
+            selectedBinding = binding;
+            binding.selected.setVisibility(View.VISIBLE);
+            binding.selected.setSelected(true);
         });
         return new CategoryViewHolder(binding);
     }
@@ -37,6 +42,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     public void updateList(List<Category> categories) {
         if(categories == null || categories.size() == 0)
             return;
+        selectedBinding = null;
         this.categories = categories;
         notifyDataSetChanged();
         /*
@@ -52,6 +58,6 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     }
 
     public Category getSelectedCategory() {
-        return selectedCategory;
+        return selectedBinding == null ? null : selectedBinding.getCategory();
     }
 }

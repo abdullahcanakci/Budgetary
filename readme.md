@@ -2,7 +2,7 @@
 Budgetary is an Android app designed to be used for spending tracking, and budget keeping.
 
 ## What does it use?
-General app architecture is designed around MVVM. Data layer is implemented using Room Persistence Library and concurrency is handled by regular Java.Concurrent.
+General app architecture is designed around MVVM. Data layer is implemented using Room Persistence Library and concurrency is handled by Android Executor Framework.
 
 ## Goals
 For starter app should be able to create, store and display transactions which were achieved shortly no matter the UI.

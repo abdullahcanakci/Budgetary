@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="category"
             type="com.example.abdullah.budgetary.data.Category" />
@@ -13,7 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        >
 
         <ImageView
             android:id="@+id/category_icon"
@@ -32,6 +35,13 @@
             android:textSize="16sp"
             android:textAlignment="center"
             tools:text="Category Name" />
+        <ImageView
+            android:id="@+id/selected"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/summary_expense_color"
+            android:contentDescription="@string/category_selected_desc"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

@@ -75,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
             cat.setBackgroundColor(sampleColors[3-i]);
             cat.setName("Name" + i);
             cat.setDescription("Description" + i);
-            cat.setExpense(new Random().nextBoolean());
-            cat.setIncome(new Random().nextBoolean());
+            boolean x = new Random().nextBoolean();
+            cat.setExpense(x);
+            cat.setIncome(!x);
             mRepository.addCategory(cat);
         }
     }

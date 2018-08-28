@@ -16,6 +16,7 @@ class CategoryViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Category category) {
+        binding.selected.setVisibility(View.INVISIBLE);
         binding.setCategory(category);
     }
 }
