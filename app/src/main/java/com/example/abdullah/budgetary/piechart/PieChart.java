@@ -172,9 +172,14 @@ public class PieChart extends ViewGroup implements View.OnTouchListener{
         for(int i = 0; i < itemCount; i++) {
             PieSlice slice = adapter.slices.get(i);
             float sliceSweep = ((float) (adapter.getValue(i) * degreePerSliceData));
+            //if sliceSweep is 0.0f it creates a disc of 360 degree which creates glitching
             if(sliceSweep == 0.0f) {
                 continue;
             }
+            if(itemCount == 1) {
+                sliceSweep = 359.999f;
+            }
+
             slice.setStartAngle(startAngle);
             slice.setSweepAngle(sliceSweep);
             remainingDegree -= sliceSweep;

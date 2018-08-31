@@ -98,4 +98,8 @@ public class BudgetaryRepository {
     public LiveData<List<Category>> getCategoryByType(Boolean isExpense) {
         return categoryDao.getCategoriesByType(isExpense, !isExpense);
     }
+
+    public LiveData<List<Category>> getCategoriesUsed() {
+        return categoryDao.getCategoriesBySpending();
+    }
 }

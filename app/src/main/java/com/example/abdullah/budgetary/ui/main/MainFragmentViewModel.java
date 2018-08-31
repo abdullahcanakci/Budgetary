@@ -20,7 +20,7 @@ public class MainFragmentViewModel extends ViewModel {
 
     MainFragmentViewModel(BudgetaryRepository repository) {
         transactions = repository.getTransactions();
-        categories = repository.getCategories();
+        categories = repository.getCategoriesUsed();
         repo =repository;
     }
 

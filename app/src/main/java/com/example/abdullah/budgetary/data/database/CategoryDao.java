@@ -34,4 +34,8 @@ public interface CategoryDao {
 
     @Query("UPDATE categories SET value = :amount WHERE id = :id")
     void updateCategoryValue(long id, Long amount);
+
+    @Query("SELECT * FROM categories WHERE value > 1")
+    LiveData<List<Category>> getCategoriesBySpending();
+
 }
