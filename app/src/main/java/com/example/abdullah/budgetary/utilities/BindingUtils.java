@@ -1,10 +1,8 @@
 package com.example.abdullah.budgetary.utilities;
 
-import android.arch.lifecycle.LiveData;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.ColorInt;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,9 +15,10 @@ import java.util.Locale;
 
 public class BindingUtils {
     @BindingAdapter({"android:src"})
-    public static void setImageResource(ImageView imageView, int resourceId) {
+    public static void setImageResource(ImageView imageView, String resourceName) {
+        int id = imageView.getResources().getIdentifier(resourceName, "drawable","com.example.abdullah.budgetary");
         try {
-            imageView.setImageResource(resourceId);
+            imageView.setImageResource(id);
         } catch (Resources.NotFoundException ex) {
             Log.d("BindingUtils", "setImageResource: resource id is wrong. Please reinstall application");
             imageView.setImageResource(R.drawable.ic_error_red_500_24dp);
@@ -27,8 +26,7 @@ public class BindingUtils {
     }
 
     @BindingAdapter({"android:tint"})
-    public static void setDrawableColor(ImageView imageView, int resourceId) {
-        int color = ContextCompat.getColor(imageView.getContext(), resourceId);
+    public static void setDrawableColor(ImageView imageView, @ColorInt int color) {
         imageView.getDrawable().setTint(color);
     }
 

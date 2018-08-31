@@ -61,7 +61,8 @@
             android:layout_width="@dimen/transaction_list_item_icon_width"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:src="@{transaction.getCategory().resId}"
+            android:src="@{transaction.getCategory().iconName}"
+            android:tint="@{transaction.getCategory().categoryColor}"
             tools:src="@drawable/money"
             />
 

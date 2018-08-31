@@ -4,8 +4,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.abdullah.budgetary.R;
-
 @Entity(tableName = "categories")
 public class Category {
     @PrimaryKey(autoGenerate = true)
@@ -14,18 +12,18 @@ public class Category {
     private String name;
     private boolean isIncome;
     private boolean isExpense;
-    private int resId;
-    private int backgroundColor;
+    private String iconName;
+    private int categoryColor;
     private String description;
     private long value = 0L;
 
-    public Category(long id, String name, boolean isIncome, boolean isExpense, int resId, int backgroundColor, String description, long value){
+    public Category(long id, String name, boolean isIncome, boolean isExpense, String iconName, int categoryColor, String description, long value){
         this.id = id;
         this.name = name;
         this.isIncome = isIncome;
         this.isExpense = isExpense;
-        this.resId = resId;
-        this.backgroundColor = backgroundColor;
+        this.iconName = iconName;
+        this.categoryColor = categoryColor;
         this.description = description;
         this.value = value;
     }
@@ -65,20 +63,12 @@ public class Category {
         isExpense = expense;
     }
 
-    public int getResId() {
-        return resId == 0 ? R.drawable.money : resId;
+    public int getCategoryColor() {
+        return categoryColor;
     }
 
-    public void setResId(int resId) {
-        this.resId = resId;
-    }
-
-    public int getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    public void setCategoryColor(int categoryColor) {
+        this.categoryColor = categoryColor;
     }
 
     public String getDescription() {
@@ -95,5 +85,13 @@ public class Category {
 
     public void setValue(long value) {
         this.value = value;
+    }
+
+    public String getIconName() {
+        return iconName;
+    }
+
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
     }
 }

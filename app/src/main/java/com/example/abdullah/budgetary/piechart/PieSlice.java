@@ -1,7 +1,6 @@
 package com.example.abdullah.budgetary.piechart;
 
 import android.animation.FloatEvaluator;
-import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,9 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.view.View;
-
-import com.example.abdullah.budgetary.piechart.interfaces.PieSliceListener;
 
 public class PieSlice extends View{
     private static int sliceRadius = 100;
@@ -22,7 +20,6 @@ public class PieSlice extends View{
 
     private Point centerPoint;
 
-    private PieSliceListener pieSliceListener;
     private RectF innerRect;
     private RectF outerRect;
     private Paint paintFill;
@@ -36,6 +33,7 @@ public class PieSlice extends View{
     private float focus = 0.0f;
     private Path path;
     private boolean isFirstRun = true;
+    @ColorInt
     private int color;
 
 
@@ -68,23 +66,22 @@ public class PieSlice extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         centerPoint.set(canvas.getWidth() / 2, canvas.getHeight() / 2);
-        paintFill.setColor(getResources().getColor(color));
+        paintFill.setColor(this.color);
         innerRect.set(centerPoint.x - sliceRadius - focusOffset * focus, centerPoint.y - sliceRadius - focusOffset * focus, centerPoint.x + sliceRadius + focusOffset * focus, centerPoint.y + sliceRadius + focusOffset * focus);
         outerRect.set(centerPoint.x - sliceRadius - sliceThickness -focusOffset * focus, centerPoint.y - sliceRadius - sliceThickness - focusOffset * focus, centerPoint.x + sliceRadius + sliceThickness + focusOffset * focus, centerPoint.y + sliceRadius + sliceThickness + focusOffset * focus);
 
         path.reset();
-        //path.arcTo(innerRect, sliceData.getAnimStatAngle(), -sliceData.getAnimStatAngle());
-        //path.arcTo(outerRect, sliceData.getStartAngle(), sliceData.getAnimStatAngle());
         path.arcTo(outerRect, endAngle, -sweepAngle);
         path.arcTo(innerRect, startAngle, +sweepAngle);
         path.close();
 
         canvas.drawPath(path, paintFill);
-        //canvas.drawPath(path, paintBorder);
 
     }
 
     public void startAnimation() {
+        return;
+        /*
         ValueAnimator anim = ValueAnimator.ofFloat(startAngle, endAngle);
         anim.setEvaluator(new FloatEvaluator());
         anim.setDuration(1000);
@@ -96,7 +93,7 @@ public class PieSlice extends View{
             }
         });
         anim.start();
-
+        */
     }
 
     public void selectionAnimation(boolean isExpanding) {
@@ -176,7 +173,7 @@ public class PieSlice extends View{
 
     public void setColor(int color) {
         this.color = color;
-        paintFill.setColor(getResources().getColor(this.color));
+        paintFill.setColor(this.color);
         invalidate();
     }
 

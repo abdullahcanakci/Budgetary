@@ -4,10 +4,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.widget.TextView;
 
-import com.example.abdullah.budgetary.utilities.BindingUtils;
-import com.example.abdullah.budgetary.utilities.CurrencyUtility;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 
 import java.util.Date;
@@ -92,8 +89,8 @@ public class Transaction {
         return DateUtilities.getDateRelation(date);
     }
 
-    public int getIcon() {
-        return category.getResId();
+    public String getIcon() {
+        return category.getIconName();
     }
 
     public Category getCategory() {

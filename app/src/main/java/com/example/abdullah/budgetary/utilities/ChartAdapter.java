@@ -35,13 +35,11 @@ public class ChartAdapter extends PieChartAdapter {
 
     @Override
     public int getColor(int index) {
-        return category.get(index).getBackgroundColor();
+        return category.get(index).getCategoryColor();
     }
 
     @Override
-    public int getDrawable(int index) {
-        return category.get(index).getResId();
-    }
+    public String getDrawable(int index) { return category.get(index).getIconName();}
 
     @Override
     public int getItemCount() {

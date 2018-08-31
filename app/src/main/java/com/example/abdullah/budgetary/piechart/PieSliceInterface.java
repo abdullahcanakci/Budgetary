@@ -5,6 +5,6 @@ public interface PieSliceInterface {
     long getId(int index);
     String getLabel(int index);
     int getColor(int index);
-    int getDrawable(int index);
+    String getDrawable(int index);
     int getItemCount();
 }
