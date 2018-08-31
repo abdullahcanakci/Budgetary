@@ -12,6 +12,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:textAlignment="textStart"
+        android:inputType="text"
         android:hint="@string/hint_category_name" />
     <EditText
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:textAlignment="textStart"
+        android:inputType="text"
         android:hint="@string/hint_category_description"
         />
 

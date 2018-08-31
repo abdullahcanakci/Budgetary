@@ -89,9 +89,7 @@ public class Transaction {
         return DateUtilities.getDateRelation(date);
     }
 
-    public String getIcon() {
-        return category.getIconName();
-    }
+
 
     public Category getCategory() {
         return category;

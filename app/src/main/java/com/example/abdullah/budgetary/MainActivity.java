@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
+import com.example.abdullah.budgetary.data.Icon;
 import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
         }));
 
-        //createRandomCategory();
+        createRandomCategory();
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
 
@@ -50,10 +51,14 @@ public class MainActivity extends AppCompatActivity {
     private void createRandomCategory() {
         for(int i = 0; i < 4 ; i++) {
             Category cat = new Category();
-            cat.setIconName(getResources().getResourceName(sampleIcons[i]));
-            cat.setCategoryColor(getResources().getColor(sampleColors[3-i]));
+            Icon icon = new Icon(
+                    0,
+                    getResources().getColor(sampleColors[3-i]),
+                    getResources().getResourceName(sampleIcons[i]),
+                    "Description" + i
+            );
+            cat.setIcon(icon);
             cat.setName("Name" + i);
-            cat.setDescription("Description" + i);
             boolean x = new Random().nextBoolean();
             cat.setExpense(x);
             cat.setIncome(!x);

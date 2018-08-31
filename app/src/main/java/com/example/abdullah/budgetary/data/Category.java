@@ -1,5 +1,6 @@
 package com.example.abdullah.budgetary.data;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -12,20 +13,19 @@ public class Category {
     private String name;
     private boolean isIncome;
     private boolean isExpense;
-    private String iconName;
-    private int categoryColor;
     private String description;
     private long value = 0L;
+    @Embedded(prefix = "_icon")
+    private Icon icon;
 
-    public Category(long id, String name, boolean isIncome, boolean isExpense, String iconName, int categoryColor, String description, long value){
+    public Category(long id, String name, boolean isIncome, boolean isExpense, String description, long value, Icon icon){
         this.id = id;
         this.name = name;
         this.isIncome = isIncome;
         this.isExpense = isExpense;
-        this.iconName = iconName;
-        this.categoryColor = categoryColor;
         this.description = description;
         this.value = value;
+        this.icon = icon;
     }
 
     @Ignore
@@ -63,14 +63,6 @@ public class Category {
         isExpense = expense;
     }
 
-    public int getCategoryColor() {
-        return categoryColor;
-    }
-
-    public void setCategoryColor(int categoryColor) {
-        this.categoryColor = categoryColor;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -87,15 +79,11 @@ public class Category {
         this.value = value;
     }
 
-    public String getIconName() {
-        return iconName;
-    }
-
-    public void setIconName(String iconName) {
-        this.iconName = iconName;
-    }
-
     public Icon getIcon(){
-        return new Icon(id, categoryColor, iconName, description);
+        return icon;
+    }
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 }
