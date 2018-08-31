@@ -56,16 +56,7 @@
                 android:textSize="12sp"
                 tools:text="Lorem ipsum dolor sit amet" />
         </LinearLayout>
-        <ImageView
-            android:contentDescription="@{transaction.category.description}"
-            android:layout_width="@dimen/transaction_list_item_icon_width"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:src="@{transaction.getCategory().iconName}"
-            android:tint="@{transaction.getCategory().categoryColor}"
-            tools:src="@drawable/money"
-            />
-
-
+        <include layout="@layout/layout_icon_holder"
+            bind:icon="@{transaction.category.getIcon()}"/>
     </LinearLayout>
 </layout>

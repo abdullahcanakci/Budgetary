@@ -37,4 +37,11 @@ public class BindingUtils {
         view.setText(text);
     }
 
+/*
+    @BindingAdapter({"android:bind"})
+    public static void setIcon(ImageView view, Icon icon) {
+        ((LayoutIconHolderBinding) view).setIcon(icon);
+    }
+*/
+
 }

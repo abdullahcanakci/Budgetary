@@ -14,4 +14,6 @@
     <string name="no_category_error">No category selected! Please select one.</string>
     <string name="no_amount_error">No currency detected! Please enter.</string>
     <string name="category_selected_desc">Selected category</string>
+    <string name="hint_category_name">Category name…</string>
+    <string name="hint_category_description">Category description…</string>
 </resources>

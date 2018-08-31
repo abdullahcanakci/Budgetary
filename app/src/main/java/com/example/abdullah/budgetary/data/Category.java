@@ -94,4 +94,8 @@ public class Category {
     public void setIconName(String iconName) {
         this.iconName = iconName;
     }
+
+    public Icon getIcon(){
+        return new Icon(id, categoryColor, iconName, description);
+    }
 }

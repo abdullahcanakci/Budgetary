@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -11,22 +12,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minWidth="100dp"
         android:orientation="vertical"
         android:padding="8dp"
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_horizontal"
         >
 
-        <ImageView
-            android:id="@+id/category_icon"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@{category.iconName}"
-            android:tint="@{category.categoryColor}"
-            android:contentDescription="@{category.description}"
-            tools:src="@drawable/money"/>
+        <include layout="@layout/layout_icon_holder"
+            bind:icon="@{category.getIcon()}"
+            />
 
         <TextView
             android:layout_width="match_parent"
