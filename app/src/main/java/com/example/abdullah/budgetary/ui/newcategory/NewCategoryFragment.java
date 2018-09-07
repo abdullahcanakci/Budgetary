@@ -56,8 +56,10 @@ public class NewCategoryFragment extends Fragment implements DialogInteractionIn
 
         binding.colorSeekBar.setBarHeight(5);
         binding.colorSeekBar.setOnColorChangeListener((int barPos, int alpPos, int color) -> {
-           model.setColor(color);
+            model.setSeekBarPosition(barPos);
+            model.setColor(color);
         });
+        binding.colorSeekBar.setColorBarPosition(model.getSeekBarPosition());
         return binding.getRoot();
     }
 
@@ -75,5 +77,10 @@ public class NewCategoryFragment extends Fragment implements DialogInteractionIn
         Category cat = model.getCategory();
         model.insertCategory(cat);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

@@ -30,6 +30,7 @@ public class NewCategoryViewModel extends ViewModel {
     @ColorInt
     private int color = 0xFF37474F;
     private Icon icon;
+    private int seekBarPosition;
 
     NewCategoryViewModel(Context context, BudgetaryRepository repository) {
         this.repository = repository;
@@ -127,5 +128,13 @@ public class NewCategoryViewModel extends ViewModel {
 
     public void insertCategory(Category cat) {
         repository.addCategory(cat);
+    }
+
+    public void setSeekBarPosition(int barPos) {
+        this.seekBarPosition = barPos;
+    }
+
+    public int getSeekBarPosition() {
+        return seekBarPosition;
     }
 }
