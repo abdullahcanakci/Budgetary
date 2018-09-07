@@ -16,4 +16,7 @@
     <string name="category_selected_desc">Selected category</string>
     <string name="hint_category_name">Category name…</string>
     <string name="hint_category_description">Category description…</string>
+    <string name="dialog_title_category">New Category</string>
+    <string name="is_expense">Expense</string>
+    <string name="is_income">Income</string>
 </resources>

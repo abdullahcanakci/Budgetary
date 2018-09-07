@@ -21,11 +21,24 @@ public class Icon {
         return colorInt;
     }
 
+
+    public void setColor(int color) {
+        this.colorInt = color;
+    }
+
     public String getIconName() {
         return iconName;
     }
 
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
+    }
+
     public String getIconDescription() {
         return iconDescription;
+    }
+
+    public void setIconDescription(String iconDescription) {
+        this.iconDescription = iconDescription;
     }
 }

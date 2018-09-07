@@ -12,6 +12,7 @@ import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -25,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mRepository = InjectorUtils.provideRepository(this);
         mRepository.getCategories().observeForever((categories1 ->  {
             categories = categories1;
-            Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
+            if(categories1 != null)
+                Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
         }));
 
-        createRandomCategory();
+        //createRandomCategory();
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
 
@@ -46,20 +49,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     int temp = 0;
-    int[] sampleIcons = {R.drawable.temp_hot, R.drawable.money, R.drawable.temp_hat, R.drawable.temp_vacation};
+
+    String[] sampleIcons;
     int[] sampleColors = {R.color.summary_center_color, R.color.summary_expense_color, R.color.summary_income_color, R.color.colorAccent};
     private void createRandomCategory() {
-        for(int i = 0; i < 4 ; i++) {
+        Random r = new Random();
+
+        try {
+            sampleIcons = getAssets().list("categories");
+            Log.d("CategoryCreator", "Number of items: " + sampleIcons.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        for(int i = 0; i < sampleIcons.length ; i++) {
             Category cat = new Category();
             Icon icon = new Icon(
                     0,
-                    getResources().getColor(sampleColors[3-i]),
-                    getResources().getResourceName(sampleIcons[i]),
+                    getResources().getColor(sampleColors[r.nextInt(4)]),
+                    sampleIcons[i],
                     "Description" + i
             );
             cat.setIcon(icon);
             cat.setName("Name" + i);
-            boolean x = new Random().nextBoolean();
+            boolean x = r.nextBoolean();
             cat.setExpense(x);
             cat.setIncome(!x);
             mRepository.addCategory(cat);

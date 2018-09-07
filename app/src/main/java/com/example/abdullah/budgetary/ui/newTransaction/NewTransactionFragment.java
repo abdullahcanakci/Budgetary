@@ -14,6 +14,8 @@ import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.databinding.FragmentTransactionAddBinding;
+import com.example.abdullah.budgetary.ui.CustomDialogFragment;
+import com.example.abdullah.budgetary.ui.newcategory.NewCategoryFragment;
 import com.example.abdullah.budgetary.ui.utils.CategoryRecyclerAdapter;
 import com.example.abdullah.budgetary.ui.utils.DialogInteractionInterface;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
@@ -64,6 +66,14 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
             isExpense = view.isChecked();
         });
 
+        binding.categoryNewButton.setOnClickListener((view) -> {
+            CustomDialogFragment dialogFragment = new CustomDialogFragment();
+            dialogFragment.setButtons(R.string.confirm_button_text, R.string.cancel_button_text);
+            dialogFragment.setTitle(R.string.dialog_title_category);
+            dialogFragment.setFragment(NewCategoryFragment.getInstance());
+            dialogFragment.show(getFragmentManager(), "dialog_category");
+        });
+
         adapter.notifyDataSetChanged();
         return binding.getRoot();
     }
@@ -81,7 +91,7 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
 
     private boolean insertTransaction(){
         Long amount = binding.amountEntry.getRawValue();
-        if(amount == null || amount == 0L){
+        if(amount == 0L){
             Log.d(TAG, "insertTransaction: " + "No amount entered");
             binding.errorView.setText(R.string.no_amount_error);
             binding.errorView.setVisibility(View.VISIBLE);
