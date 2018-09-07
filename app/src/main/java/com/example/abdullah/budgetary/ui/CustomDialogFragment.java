@@ -1,6 +1,6 @@
 package com.example.abdullah.budgetary.ui;
 
-import android.app.ActionBar;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +20,14 @@ import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.ui.utils.DialogInteractionInterface;
 
 public class CustomDialogFragment extends DialogFragment {
+    private static final String TAG = "CustomDialogFragment";
+    private static final String DIALOG_TITLE = "title";
+    private static final String CONFIRM_BUTTON = "confirm_button";
+    private static final String CANCEL_BUTTON = "cancel_button";
+    private static final String CONFIRM_BUTTON_STATUS = "status_confirm_button";
+    private static final String CANCEL_BUTTON_STATUS = "status_cancel_button";
+
+
     private TextView titleView;
     private FrameLayout container;
     private Button buttonConfirm;
@@ -30,8 +38,8 @@ public class CustomDialogFragment extends DialogFragment {
     private DialogInteractionInterface listener = null;
 
     private Integer titleResId;
-    private Integer confirmTextResId;
-    private Integer cancelTextResId;
+    private Integer confirmTextResId = null;
+    private Integer cancelTextResId = null;
     private Fragment fragment;
 
     public void setFragment(Fragment fragment) {
@@ -144,5 +152,47 @@ public class CustomDialogFragment extends DialogFragment {
                 Log.d("CustomDialogFragment", "updateContainer: findFragmentById threw error" + ex);
             }
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("DialogFragment", "onCreate");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(DIALOG_TITLE, titleResId);
+        if(confirmTextResId != null){
+            outState.putBoolean(CONFIRM_BUTTON_STATUS, true);
+            outState.putInt(CONFIRM_BUTTON, confirmTextResId);
+        } else {
+            outState.putBoolean(CONFIRM_BUTTON_STATUS, false);
+        }
+
+        if(cancelTextResId != null) {
+            outState.putBoolean(CANCEL_BUTTON_STATUS, true);
+            outState.putInt(CANCEL_BUTTON, cancelTextResId);
+        } else {
+            outState.putBoolean(CANCEL_BUTTON_STATUS, false);
+        }
+        Log.d(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            titleResId = savedInstanceState.getInt(DIALOG_TITLE);
+            if(savedInstanceState.getBoolean(CONFIRM_BUTTON_STATUS, false)){
+                confirmTextResId = savedInstanceState.getInt(CONFIRM_BUTTON);
+            }
+
+            if(savedInstanceState.getBoolean(CANCEL_BUTTON_STATUS, false)) {
+                cancelTextResId = savedInstanceState.getInt(CANCEL_BUTTON);
+            }
+        }
+        return super.onCreateDialog(savedInstanceState);
     }
 }
