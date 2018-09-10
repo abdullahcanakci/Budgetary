@@ -16,10 +16,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import static com.example.abdullah.budgetary.ui.main.MainFragment.TAG;
+
 public class BindingUtils {
 
     @BindingAdapter({"android:src"})
     public static void setImageResource(ImageView imageView, String resourceName) {
+        if(resourceName == null){
+            imageView.setImageResource(R.drawable.ic_error_outline_red_500_24dp);;
+            return;
+        }
         //The though behind this was to create some sort of caching to reduce disk io
         //Problem is tinting one view updates the drawable and all views are changing color
         Log.d("AssetLoader", "Loading asset: " +resourceName);
@@ -40,8 +46,10 @@ public class BindingUtils {
                 }
             }
         }
-        drawable.setTint(imageView.getResources().getColor(R.color.icon_default));
+        if(imageView == null)
+            Log.d(TAG, "setImageResource: drawable is null. resource name: "+ resourceName);
         imageView.setImageDrawable(drawable);
+        drawable.setTint(imageView.getResources().getColor(R.color.icon_default));
 
     }
 
@@ -52,6 +60,10 @@ public class BindingUtils {
 
     @BindingAdapter({"android:text"})
     public static void setText(TextView view, CustomLong d) {
+        if(d == null){
+            view.setText(R.string.not_avaible);
+            return;
+        }
         Locale locale = view.getResources().getConfiguration().locale;
         String text = CurrencyTextFormatter.formatText(d.amount.toString(), locale);
         view.setText(text);

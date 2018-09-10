@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.database.BudgetaryDatabase;
+import com.example.abdullah.budgetary.ui.detailtransaction.TransactionDetailFragmentViewModelFactory;
 import com.example.abdullah.budgetary.ui.main.MainFragmentViewModelFactory;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionViewModelFactory;
 import com.example.abdullah.budgetary.ui.newcategory.NewCategoryViewModelFactory;
@@ -29,5 +30,10 @@ public class InjectorUtils {
     public static NewCategoryViewModelFactory provideNewCategoryViewModelFactory(Context context){
         BudgetaryRepository repository = provideRepository(context.getApplicationContext());
         return new NewCategoryViewModelFactory(context, repository);
+    }
+
+    public static TransactionDetailFragmentViewModelFactory provideTransactionDetailFragmentViewModelFactory(Context context, long id) {
+        BudgetaryRepository repository = provideRepository(context.getApplicationContext());
+        return new TransactionDetailFragmentViewModelFactory(repository, id);
     }
 }

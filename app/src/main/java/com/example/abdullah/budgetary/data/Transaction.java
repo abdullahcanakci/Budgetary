@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 
 import java.util.Date;
@@ -89,6 +90,9 @@ public class Transaction {
         return DateUtilities.getDateRelation(date);
     }
 
+    public String getFullDateRelation(){
+        return getHourInfo() + ", " + getDateRelationInfo();
+    }
 
 
     public Category getCategory() {
@@ -98,6 +102,10 @@ public class Transaction {
     public void setCategory(Category category) {
         this.category = category;
 
+    }
+
+    public int getStatusDrawable() {
+        return isIncome ? R.drawable.arrow_income : R.drawable.arrow_expense;
     }
 
 

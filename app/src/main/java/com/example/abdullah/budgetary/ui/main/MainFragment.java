@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.abdullah.budgetary.R;
-import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.databinding.FragmentMainBinding;
 import com.example.abdullah.budgetary.piechart.PieChart;
 import com.example.abdullah.budgetary.piechart.interfaces.PieChartInterface;
+import com.example.abdullah.budgetary.ui.CustomDialogFragment;
+import com.example.abdullah.budgetary.ui.detailtransaction.TransactionDetailFragment;
 import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
-import com.example.abdullah.budgetary.utilities.AppExecutors;
 import com.example.abdullah.budgetary.utilities.ChartAdapter;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
@@ -38,6 +38,17 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         MainFragmentViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(this.getContext());
         mViewModel = ViewModelProviders.of(this, factory).get(MainFragmentViewModel.class);
+        recyclerAdapter.setOnItemClickListener((view, id) -> {
+            inflateDialogFragment(TransactionDetailFragment.getInstance(id));
+        });
+    }
+
+    private void inflateDialogFragment(Fragment instance) {
+        CustomDialogFragment d = new CustomDialogFragment();
+        d.setButtons(null, null);
+        d.setTitle(null);
+        d.setFragment(instance);
+        d.show(getChildFragmentManager(), "dialog");
     }
 
     public static MainFragment getInstance() {

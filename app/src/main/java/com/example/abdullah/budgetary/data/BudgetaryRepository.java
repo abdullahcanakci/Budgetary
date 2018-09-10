@@ -102,4 +102,8 @@ public class BudgetaryRepository {
     public LiveData<List<Category>> getCategoriesUsed() {
         return categoryDao.getCategoriesBySpending();
     }
+
+    public LiveData<Transaction> getTransactionById(long transactionId) {
+        return transactionDao.getTransaction(transactionId);
+    }
 }

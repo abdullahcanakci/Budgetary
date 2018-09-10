@@ -19,4 +19,8 @@
     <string name="dialog_title_category">New Category</string>
     <string name="is_expense">Expense</string>
     <string name="is_income">Income</string>
+    <string name="button_description_edit">Edit mode button</string>
+    <string name="detail_transaction_note_hint">Transaction details…</string>
+    <string name="transaction_detail_load_fail">Loading transaction failed please try again.</string>
+    <string name="not_avaible">N/A</string>
 </resources>

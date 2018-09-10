@@ -53,12 +53,16 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
     public void setTitle(Integer resourceId) {
-        if(resourceId == null)
+        if(resourceId == null){
+            if(titleView != null)
+                titleView.setVisibility(View.INVISIBLE);
             return;
+        }
         titleResId = resourceId;
         if(!isInitialized) {
             return;
         }
+        titleView.setVisibility(View.VISIBLE);
         titleView.setText(titleResId);
     }
 

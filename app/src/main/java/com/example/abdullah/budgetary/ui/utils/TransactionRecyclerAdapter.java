@@ -11,18 +11,23 @@ import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.databinding.LayoutTransactionListViewBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.LayoutInflater.from;
 
 public class TransactionRecyclerAdapter extends RecyclerView.Adapter<TransactionHolder> {
     private List<Transaction> activeList;
+    private OnItemClickListener onItemClickListener = null;
+
     @NonNull
     @Override
     public TransactionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = from(parent.getContext());
         LayoutTransactionListViewBinding binding = DataBindingUtil.inflate(inflater, R.layout.layout_transaction_list_view, parent, false);
+        binding.itemContainer.setOnClickListener((view) -> {
+            if(onItemClickListener != null)
+                onItemClickListener.onItemClicked(view, binding.getTransaction().getId());
+        });
         return new TransactionHolder(binding);
     }
 
@@ -49,4 +54,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     }
 
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 }
