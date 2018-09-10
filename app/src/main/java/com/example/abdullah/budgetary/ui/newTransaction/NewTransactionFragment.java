@@ -43,7 +43,7 @@ public class NewTransactionFragment extends Fragment implements DialogInteractio
         adapter = new CategoryRecyclerAdapter();
         NewTransactionViewModelFactory factory = InjectorUtils.provideNewFragmentViewModelFactory(this.getContext());
         model = ViewModelProviders.of(this, factory).get(NewTransactionViewModel.class);
-        model.getCategories().observeForever((categories) -> {
+        model.getCategories().observe(this, (categories) -> {
             adapter.updateList(categories);
             adapter.notifyDataSetChanged();
         });

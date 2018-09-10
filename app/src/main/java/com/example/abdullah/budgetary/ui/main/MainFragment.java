@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(recyclerAdapter);
 
-        mViewModel.getLastTransactions().observeForever((transactions) -> {
+        mViewModel.getLastTransactions().observe(this, (transactions) -> {
             Log.d(TAG, "name of the class " + transactions.getClass().getName());
             updateRecyclerList(transactions);
         });
