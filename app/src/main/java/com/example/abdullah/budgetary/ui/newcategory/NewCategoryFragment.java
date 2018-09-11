@@ -53,6 +53,7 @@ public class NewCategoryFragment extends Fragment implements DialogInteractionIn
 
         binding.iconRecycler.setLayoutManager(manager);
         binding.iconRecycler.setAdapter(adapter);
+        binding.iconRecycler.setHasFixedSize(true);
 
         binding.colorSeekBar.setBarHeight(5);
         binding.colorSeekBar.setOnColorChangeListener((int barPos, int alpPos, int color) -> {

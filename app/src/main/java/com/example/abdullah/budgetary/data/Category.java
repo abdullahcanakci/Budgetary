@@ -4,6 +4,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.ColorInt;
 
 @Entity(tableName = "categories")
 public class Category {
@@ -15,6 +16,9 @@ public class Category {
     private boolean isExpense;
     private String description;
     private long value = 0L;
+    @ColorInt
+    public int color;
+
     @Embedded(prefix = "_icon")
     private Icon icon;
 
@@ -80,10 +84,16 @@ public class Category {
     }
 
     public Icon getIcon(){
+        icon.setColor(color);
+        icon.setDescription(description);
         return icon;
     }
 
     public void setIcon(Icon icon) {
         this.icon = icon;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

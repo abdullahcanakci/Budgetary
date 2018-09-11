@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.Icon;
@@ -16,10 +17,12 @@ import java.util.List;
 public class IconRecyclerAdapter extends RecyclerView.Adapter<IconViewHolder> {
     private final NewCategoryViewModel model;
     private List<Icon> icons;
-    private Icon selectedIcon;
+    private ImageView selectedIcon;
 
     public IconRecyclerAdapter(NewCategoryViewModel model) {
         this.model = model;
+        this.setHasStableIds(true);
+
     }
 
     @NonNull
@@ -32,7 +35,11 @@ public class IconRecyclerAdapter extends RecyclerView.Adapter<IconViewHolder> {
                 false);
 
         binding.imageView.setOnClickListener((view) -> {
-           model.setIcon(binding.getIcon());
+            model.setIcon(binding.getIcon());
+            if(selectedIcon != null)
+                selectedIcon.getDrawable().setTint(0xFF7AADC7);
+            selectedIcon = ((ImageView) binding.getRoot());
+            selectedIcon.getDrawable().setTint(selectedIcon.getContext().getResources().getColor(R.color.colorAccent, null));
         });
 
         return new IconViewHolder(binding);
@@ -51,9 +58,5 @@ public class IconRecyclerAdapter extends RecyclerView.Adapter<IconViewHolder> {
     public void setList(List<Icon> icons) {
         this.icons = icons;
         notifyDataSetChanged();
-    }
-
-    public Icon getSelectedIcon() {
-        return selectedIcon;
     }
 }

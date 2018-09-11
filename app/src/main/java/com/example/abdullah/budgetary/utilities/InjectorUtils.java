@@ -13,7 +13,7 @@ public class InjectorUtils {
     public static BudgetaryRepository provideRepository(Context context) {
         BudgetaryDatabase database = BudgetaryDatabase.getInstance(context);
         AppExecutors executors = AppExecutors.getInstance();
-        return BudgetaryRepository.getInstance(database.transactionDao(), database.categoryDao(), executors);
+        return BudgetaryRepository.getInstance(database.transactionDao(), database.categoryDao(), database.iconDao(), executors);
     }
 
 

@@ -10,31 +10,30 @@ import com.example.abdullah.budgetary.data.Icon;
 import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
+import com.example.abdullah.budgetary.utilities.BindingUtils;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     BudgetaryRepository mRepository;
     List<Category> categories;
-
+    int drawableVersion;
+    int periodStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mRepository = InjectorUtils.provideRepository(this);
-        mRepository.getCategories().observeForever((categories1 ->  {
-            categories = categories1;
-            if(categories1 != null)
-                Log.d("MainActivity", "Categories updated. Number of items" + categories1.size());
-        }));
-
-        //createRandomCategory();
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
 
@@ -46,38 +45,46 @@ public class MainActivity extends AppCompatActivity {
             d.setFragment(NewTransactionFragment.getInstance());
             d.show(getSupportFragmentManager(), "dialog");
         });
+        checkSharedPrefs();
+        checkDrawableStatus();
+
+        BindingUtils.loadIcons(this, mRepository);
+
+
     }
 
-    int temp = 0;
+    private void checkDrawableStatus() {
 
-    String[] sampleIcons;
-    int[] sampleColors = {R.color.summary_center_color, R.color.summary_expense_color, R.color.summary_income_color, R.color.colorAccent};
-    private void createRandomCategory() {
-        Random r = new Random();
-
+        String s = null;
         try {
-            sampleIcons = getAssets().list("categories");
-            Log.d("CategoryCreator", "Number of items: " + sampleIcons.length);
-        } catch (IOException e) {
+            InputStream stream = this.getAssets().open("drawables.json");
+            s = convert(stream, Charset.defaultCharset());
+            Log.d("Test", "checkDrawableStatus: " + s);
+            stream.close();
+        } catch (IOException e){
             e.printStackTrace();
         }
 
+        Gson g = new Gson();
+        Type type = new TypeToken<List<Icon>>(){}.getType();
+        List<Icon> icons = g.fromJson(s, type);
+        Log.d("Test", "checkDrawableStatus: ");
+        mRepository.addIcons(icons);
 
-        for(int i = 0; i < sampleIcons.length ; i++) {
-            Category cat = new Category();
-            Icon icon = new Icon(
-                    0,
-                    getResources().getColor(sampleColors[r.nextInt(4)]),
-                    sampleIcons[i],
-                    "Description" + i
-            );
-            cat.setIcon(icon);
-            cat.setName("Name" + i);
-            boolean x = r.nextBoolean();
-            cat.setExpense(x);
-            cat.setIncome(!x);
-            mRepository.addCategory(cat);
+    }
+
+    public String convert(InputStream inputStream, Charset charset){
+        try (Scanner scanner = new Scanner(inputStream, charset.name())) {
+            return scanner.useDelimiter("\\A").next();
         }
+    }
+
+    private void checkSharedPrefs(){
+        PreferenceHandler handler = new PreferenceHandler(this);
+
+        drawableVersion = handler.getDrawablesVersion();
+        periodStart = handler.getPeriodStart();
+
     }
 
 }

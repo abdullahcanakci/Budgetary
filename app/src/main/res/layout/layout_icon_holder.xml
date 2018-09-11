@@ -11,9 +11,9 @@
         android:layout_width="@dimen/icon_width"
         android:layout_height="@dimen/icon_height"
         android:padding="8dp"
-        android:contentDescription="@{icon.iconDescription}"
-        android:src="@{icon.iconName}"
-        android:tint="@{icon.colorInt}"
+        android:contentDescription="@{icon.description}"
+        android:src="@{icon.name}"
+        android:tint="@{icon.colorInt == 0 ? 0xFF7AADC7 : icon.colorInt}"
         tools:src="@drawable/money"
         />
 </layout>
