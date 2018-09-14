@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.data.Period;
 import com.example.abdullah.budgetary.databinding.FragmentPeriodDetailsBinding;
+import com.example.abdullah.budgetary.ui.CustomDialogFragment;
+import com.example.abdullah.budgetary.ui.detailtransaction.TransactionDetailFragment;
 import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
@@ -73,16 +75,28 @@ public class PeriodDetailFragment extends Fragment {
                                                       }
                                                   });
 
-                model.getPeriods().observe(this, (periods -> {
-                    this.periods = periods;
-                    String[] per = getPeriodStrings(periods);
-                    stringAdapter.addAll(per);
+        model.getPeriods().observe(this, (periods -> {
+            this.periods = periods;
+            String[] per = getPeriodStrings(periods);
+            stringAdapter.addAll(per);
 
-                }));
+        }));
+
+        adapter.setOnItemClickListener((view, id) -> {
+            inflateDialogFragment(TransactionDetailFragment.getInstance(id));
+        });
 
 
         return binding.getRoot();
 
+    }
+
+    private void inflateDialogFragment(Fragment instance) {
+        CustomDialogFragment d = new CustomDialogFragment();
+        d.setButtons(null, null);
+        d.setTitle(null);
+        d.setFragment(instance);
+        d.show(getChildFragmentManager(), "dialog");
     }
 
     private String[] getPeriodStrings(List<Period> periods) {

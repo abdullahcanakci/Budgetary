@@ -7,7 +7,6 @@ import android.util.Log;
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Icon;
-import com.example.abdullah.budgetary.data.Period;
 import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
@@ -23,8 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkSharedPrefs();
         //checkDrawableStatus();
-
+/*
         mRepository.removeAllPeriods();
 
         Period period = new Period(new Date(0), new Date());
@@ -70,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         periods.add(period);
         periods.add(period1);
         mRepository.addPeriod(periods);
-
+*/
 
         BindingUtils.loadIcons(this, mRepository);
 
