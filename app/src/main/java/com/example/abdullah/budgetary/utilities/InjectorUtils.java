@@ -8,12 +8,13 @@ import com.example.abdullah.budgetary.ui.detailtransaction.TransactionDetailFrag
 import com.example.abdullah.budgetary.ui.main.MainFragmentViewModelFactory;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionViewModelFactory;
 import com.example.abdullah.budgetary.ui.newcategory.NewCategoryViewModelFactory;
+import com.example.abdullah.budgetary.ui.perioddetail.PeriodDetailFragmentViewModelFactory;
 
 public class InjectorUtils {
     public static BudgetaryRepository provideRepository(Context context) {
         BudgetaryDatabase database = BudgetaryDatabase.getInstance(context);
         AppExecutors executors = AppExecutors.getInstance();
-        return BudgetaryRepository.getInstance(database.transactionDao(), database.categoryDao(), database.iconDao(), executors);
+        return BudgetaryRepository.getInstance(database, executors);
     }
 
 
@@ -35,5 +36,10 @@ public class InjectorUtils {
     public static TransactionDetailFragmentViewModelFactory provideTransactionDetailFragmentViewModelFactory(Context context, long id) {
         BudgetaryRepository repository = provideRepository(context.getApplicationContext());
         return new TransactionDetailFragmentViewModelFactory(repository, id);
+    }
+
+    public static PeriodDetailFragmentViewModelFactory providePeriodDetailFragmentViewModelFactory(Context context) {
+        BudgetaryRepository repository = provideRepository(context.getApplicationContext());
+        return new PeriodDetailFragmentViewModelFactory(repository);
     }
 }

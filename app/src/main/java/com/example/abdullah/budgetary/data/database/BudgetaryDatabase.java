@@ -8,11 +8,12 @@ import android.content.Context;
 
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Icon;
+import com.example.abdullah.budgetary.data.Period;
 import com.example.abdullah.budgetary.data.Transaction;
 import com.example.abdullah.budgetary.data.database.converters.DateConverter;
 
 
-@Database(entities = {Transaction.class, Category.class, Icon.class}, version = 2, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Icon.class, Period.class}, version = 3, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class BudgetaryDatabase extends RoomDatabase{
     private static final String DATABASE_NAME = "budgetary";
@@ -23,6 +24,7 @@ public abstract class BudgetaryDatabase extends RoomDatabase{
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
     public abstract IconDao iconDao();
+    public abstract PeriodDao periodDao();
 
     public static BudgetaryDatabase getInstance(Context context) {
         if(sInstance == null) {
