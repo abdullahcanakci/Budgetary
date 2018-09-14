@@ -6,26 +6,22 @@ import android.util.Log;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
-import com.example.abdullah.budgetary.data.Icon;
 import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
 import com.example.abdullah.budgetary.ui.perioddetail.PeriodDetailFragment;
+import com.example.abdullah.budgetary.ui.utils.IconJsonParser;
 import com.example.abdullah.budgetary.utilities.BindingUtils;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     BudgetaryRepository mRepository;
     List<Category> categories;
     int drawableVersion;
@@ -35,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        JodaTimeAndroid.init(getApplicationContext());
 
         mRepository = InjectorUtils.provideRepository(this);
 
@@ -57,7 +51,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         checkSharedPrefs();
-        //checkDrawableStatus();
+        String json = loadDrawableJson();
+        IconJsonParser parser = new IconJsonParser(json, drawableVersion);
+        parser.getVersionStatus().observe(this, (Boolean isRepoOld)->{
+            if(isRepoOld != null && isRepoOld){
+                Log.d(TAG, "Icon repository is old loading new one");
+                parser.getIcons().observe(this,  (icons)-> {
+                   mRepository.addIcons(icons);
+                   //parser.getIcons().removeObservers((AppCompatActivity)this.getBaseContext());
+                });
+                new PreferenceHandler(this).setIconsVersion(parser.getVersion());
+            } else {
+                Log.d(TAG, "Icon repository is up to date.");
+            }
+            //parser.getVersionStatus().removeObservers((AppCompatActivity)getApplicationContext());
+        });
 /*
         mRepository.removeAllPeriods();
 
@@ -74,24 +82,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void checkDrawableStatus() {
+    private String loadDrawableJson() {
 
         String s = null;
         try {
             InputStream stream = this.getAssets().open("drawables.json");
             s = convert(stream, Charset.defaultCharset());
-            Log.d("Test", "checkDrawableStatus: " + s);
+            //Log.d("Test", "checkDrawableStatus: " + s);
             stream.close();
         } catch (IOException e){
             e.printStackTrace();
         }
-
-        Gson g = new Gson();
-        Type type = new TypeToken<List<Icon>>(){}.getType();
-        List<Icon> icons = g.fromJson(s, type);
-        Log.d("Test", "checkDrawableStatus: ");
-        mRepository.addIcons(icons);
-
+        return s;
     }
 
     public String convert(InputStream inputStream, Charset charset){
