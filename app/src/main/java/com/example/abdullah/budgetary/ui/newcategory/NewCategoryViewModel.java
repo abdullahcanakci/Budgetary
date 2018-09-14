@@ -3,18 +3,13 @@ package com.example.abdullah.budgetary.ui.newcategory;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.databinding.ObservableField;
 import android.support.annotation.ColorInt;
-import android.util.Log;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Icon;
-import com.example.abdullah.budgetary.utilities.AppExecutors;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NewCategoryViewModel extends ViewModel {
@@ -34,25 +29,9 @@ public class NewCategoryViewModel extends ViewModel {
 
     NewCategoryViewModel(Context context, BudgetaryRepository repository) {
         this.repository = repository;
-        AssetManager assetManager = context.getAssets();
 
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            try {
-                String[] paths = assetManager.list("categories");
-                Log.d(TAG, "Number of items inside assets folder:" + paths.length);
-
-                if(paths.length != 0) {
-                    //Log.d(TAG, "There is no assets under category/");
-                    ArrayList<Icon> iconList = new ArrayList<>();
-                    for (String s: paths) {
-                        Icon i = new Icon(0L, color, s, null);
-                        iconList.add(i);
-                    }
-                    this.icons.postValue(iconList);
-                }
-            } catch (IOException e) {
-                Log.d(TAG, "Can't load assets from category folder");
-            }
+        repository.getAllIcons().observeForever((icons) ->{
+            this.icons.setValue(icons);
         });
     }
 
@@ -72,9 +51,9 @@ public class NewCategoryViewModel extends ViewModel {
         category.setName(getCategoryName());
         category.setExpense(isExpense());
         category.setIncome(isIncome());
+        category.setColor(color);
         category.setDescription(getCategoryDescription());
-        icon.setIconDescription(getCategoryDescription());
-        icon.setColor(getSelectedColor());
+        icon.setDescription(getCategoryDescription());
         category.setIcon(icon);
         return category;
     }
@@ -136,5 +115,9 @@ public class NewCategoryViewModel extends ViewModel {
 
     public int getSeekBarPosition() {
         return seekBarPosition;
+    }
+
+    public Icon getIcon() {
+        return icon;
     }
 }

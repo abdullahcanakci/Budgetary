@@ -1,61 +1,45 @@
 package com.example.abdullah.budgetary.utilities;
 
-import android.content.res.AssetManager;
+import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.BindingAdapter;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyTextFormatter;
 import com.example.abdullah.budgetary.R;
+import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.CustomLong;
+import com.example.abdullah.budgetary.data.Icon;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Hashtable;
 import java.util.Locale;
 
-import static com.example.abdullah.budgetary.ui.main.MainFragment.TAG;
-
 public class BindingUtils {
+    private static String packageName = null;
+    private static Hashtable<String, Integer> icons= new Hashtable<>();
 
     @BindingAdapter({"android:src"})
     public static void setImageResource(ImageView imageView, String resourceName) {
         if(resourceName == null){
-            imageView.setImageResource(R.drawable.ic_error_outline_red_500_24dp);;
+            imageView.setImageResource(R.drawable.ic_error_outline_red_500_24dp);
             return;
         }
-        //The though behind this was to create some sort of caching to reduce disk io
-        //Problem is tinting one view updates the drawable and all views are changing color
-        Log.d("AssetLoader", "Loading asset: " +resourceName);
-        Drawable drawable = null;
-        InputStream stream = null;
-        AssetManager assetManager = imageView.getContext().getAssets();
-        try {
-            stream = assetManager.open("categories/" + resourceName);
-            drawable = Drawable.createFromStream(stream, null);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
+        imageView.setImageResource(icons.get(resourceName));
+
+        if(imageView.getDrawable() == null){
+            imageView.setImageResource(R.drawable.ic_error_outline_red_500_24dp);
         }
-        if(imageView == null)
-            Log.d(TAG, "setImageResource: drawable is null. resource name: "+ resourceName);
-        imageView.setImageDrawable(drawable);
-        drawable.setTint(imageView.getResources().getColor(R.color.icon_default));
+
 
     }
 
     @BindingAdapter({"android:tint"})
     public static void setDrawableColor(ImageView imageView, @ColorInt int color) {
-        imageView.getDrawable().setTint(color);
+        if(imageView.getDrawable() != null)
+            imageView.getDrawable().setTint(color);
     }
 
     @BindingAdapter({"android:text"})
@@ -67,6 +51,17 @@ public class BindingUtils {
         Locale locale = view.getResources().getConfiguration().locale;
         String text = CurrencyTextFormatter.formatText(d.amount.toString(), locale);
         view.setText(text);
+    }
+
+    public static void loadIcons(Context context, BudgetaryRepository repository) {
+        packageName = context.getPackageName();
+        repository.getAllIcons().observeForever(ic -> AppExecutors.getInstance().diskIO().execute(() -> {
+            Resources res = context.getResources();
+            for(Icon i : ic){
+                int id = res.getIdentifier(i.getName(), "drawable", packageName);
+                icons.put(i.getName(), id);
+            }
+        }));
     }
 
 /*

@@ -1,19 +1,28 @@
 package com.example.abdullah.budgetary.data;
 
-public class Icon {
-    private long id;
-    private int colorInt;
-    private String iconName;
-    private String iconDescription;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.ColorInt;
 
-    public Icon(long id, int colorInt, String iconName, String iconDescription) {
+@Entity(tableName = "icons")
+public class Icon {
+    @PrimaryKey(autoGenerate = false)
+    private int id;
+    private String name;
+    private String description;
+
+    @ColorInt
+    @Ignore
+    private int colorInt = 0;
+
+    public Icon(int id, String name, String description) {
         this.id = id;
-        this.colorInt = colorInt;
-        this.iconName = iconName;
-        this.iconDescription = iconDescription;
+        this.name = name;
+        this.description = description;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -26,19 +35,19 @@ public class Icon {
         this.colorInt = color;
     }
 
-    public String getIconName() {
-        return iconName;
+    public String getName() {
+        return name;
     }
 
-    public void setIconName(String iconName) {
-        this.iconName = iconName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getIconDescription() {
-        return iconDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setIconDescription(String iconDescription) {
-        this.iconDescription = iconDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
