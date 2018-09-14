@@ -1,15 +1,12 @@
 package com.example.abdullah.budgetary.ui.main;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
 import com.example.abdullah.budgetary.data.Transaction;
-import com.example.abdullah.budgetary.utilities.AppExecutors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragmentViewModel extends ViewModel {
@@ -19,7 +16,7 @@ public class MainFragmentViewModel extends ViewModel {
     private BudgetaryRepository repo;
 
     MainFragmentViewModel(BudgetaryRepository repository) {
-        transactions = repository.getTransactions();
+        transactions = repository.getTransactions(10);
         categories = repository.getCategoriesUsed();
         repo =repository;
     }

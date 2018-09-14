@@ -21,4 +21,8 @@ public class PreferenceHandler {
     public int getPeriodStart() {
         return pref.getInt(PERIOD_START, 1);
     }
+
+    public void setIconsVersion(int iconsVersion) {
+        pref.edit().putInt(DRAWABLE_VERSION, iconsVersion).apply();
+    }
 }

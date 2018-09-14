@@ -57,6 +57,9 @@ public class BindingUtils {
         packageName = context.getPackageName();
         repository.getAllIcons().observeForever(ic -> AppExecutors.getInstance().diskIO().execute(() -> {
             Resources res = context.getResources();
+            if(ic == null)
+                return;
+            icons.clear();
             for(Icon i : ic){
                 int id = res.getIdentifier(i.getName(), "drawable", packageName);
                 icons.put(i.getName(), id);
