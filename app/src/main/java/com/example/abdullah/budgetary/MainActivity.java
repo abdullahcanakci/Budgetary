@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         checkSharedPrefs();
+        parseIcons();
+
+        BindingUtils.loadIcons(this, mRepository);
+
+
+    }
+
+    private void parseIcons() {
         String json = loadDrawableJson();
         IconJsonParser parser = new IconJsonParser(json, drawableVersion);
         parser.getVersionStatus().observe(this, (Boolean isRepoOld)->{
@@ -66,20 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
             //parser.getVersionStatus().removeObservers((AppCompatActivity)getApplicationContext());
         });
-/*
-        mRepository.removeAllPeriods();
-
-        Period period = new Period(new Date(0), new Date());
-        Period period1 = new Period(new Date(), new Date(Long.MAX_VALUE));
-        ArrayList<Period> periods = new ArrayList<>();
-        periods.add(period);
-        periods.add(period1);
-        mRepository.addPeriod(periods);
-*/
-
-        BindingUtils.loadIcons(this, mRepository);
-
-
     }
 
     private String loadDrawableJson() {
@@ -107,7 +101,20 @@ public class MainActivity extends AppCompatActivity {
 
         drawableVersion = handler.getDrawablesVersion();
         periodStart = handler.getPeriodStart();
+        if(handler.getFirstStart()){
+            if(onFirstRun()){
+                Log.d(TAG, "OnFirstRun.");
+                handler.setFirstStart();
+            }
 
+        }
+
+    }
+
+    private boolean onFirstRun() {
+
+
+        return false;
     }
 
 }

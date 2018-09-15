@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class PreferenceHandler {
+    private static final String FIRST_START = "first_start";
     private static final String DRAWABLE_VERSION = "drawable_version";
     private static final String PERIOD_START = "period_start";
 
@@ -24,5 +25,13 @@ public class PreferenceHandler {
 
     public void setIconsVersion(int iconsVersion) {
         pref.edit().putInt(DRAWABLE_VERSION, iconsVersion).apply();
+    }
+
+    public void setFirstStart(){
+        pref.edit().putBoolean(FIRST_START, true).apply();
+    }
+
+    public boolean getFirstStart(){
+        return pref.getBoolean(FIRST_START, true);
     }
 }
