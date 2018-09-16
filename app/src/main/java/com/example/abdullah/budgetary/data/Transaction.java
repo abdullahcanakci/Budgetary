@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 import com.example.abdullah.budgetary.R;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 
-import java.util.Date;
+import org.threeten.bp.LocalDateTime;
 
 @Entity(tableName = "transactions")
 public class Transaction {
@@ -16,14 +16,14 @@ public class Transaction {
     private long id;
 
 
-    private Date date;
+    private LocalDateTime date;
     private String note;
     private boolean isIncome = true;
     private Long amount;
     @Embedded(prefix = "cat_")
     private Category category;
 
-    public Transaction(long id, Date date, String note, boolean isIncome, Long amount, Category category) {
+    public Transaction(long id, LocalDateTime date, String note, boolean isIncome, Long amount, Category category) {
         this.id = id;
         this.date = date;
         this.note = note;
@@ -41,11 +41,11 @@ public class Transaction {
         return id;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

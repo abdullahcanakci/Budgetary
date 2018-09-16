@@ -9,7 +9,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.abdullah.budgetary.data.Transaction;
 
-import java.util.Date;
+import org.threeten.bp.LocalDateTime;
+
 import java.util.List;
 
 @Dao
@@ -18,19 +19,19 @@ public interface TransactionDao {
     void bulkInsert(Transaction... transactions);
 
     @Query("SELECT * FROM transactions WHERE date >= :date  ORDER BY date DESC ")
-    LiveData<List<Transaction>> getTransactionsFromDate(Date date);
+    LiveData<List<Transaction>> getTransactionsFromDate(LocalDateTime date);
 
     @Query("SELECT * FROM transactions WHERE date >= :before AND date < :after")
-    LiveData<List<Transaction>> getTransactionsBetweenDates(Date before, Date after);
+    LiveData<List<Transaction>> getTransactionsBetweenDates(LocalDateTime before, LocalDateTime after);
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     LiveData<Transaction> getTransaction(long id);
 
     @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND isIncome")
-    LiveData<Long> getIncomeSummary(Date before);
+    LiveData<Long> getIncomeSummary(LocalDateTime before);
 
     @Query("SELECT SUM(amount) FROM transactions WHERE date >= :before AND NOT(isIncome)")
-    LiveData<Long> getExpenseSummary(Date before);
+    LiveData<Long> getExpenseSummary(LocalDateTime before);
 
 
     @Delete
@@ -49,5 +50,5 @@ public interface TransactionDao {
     LiveData<List<Transaction>> getTransactions(int limit);
 
     @Query("SELECT SUM(amount) FROM TRANSACTIONS WHERE cat_id = :id AND date > :date")
-    Long getExpenseSummaryByCategory(long id, Date date);
+    Long getExpenseSummaryByCategory(long id, LocalDateTime date);
 }

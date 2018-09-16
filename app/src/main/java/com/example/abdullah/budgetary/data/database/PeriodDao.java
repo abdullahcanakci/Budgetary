@@ -15,6 +15,9 @@ public interface PeriodDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(List<Period> period);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(Period p);
+
     @Query("SELECT * FROM periods")
     LiveData<List<Period>> getAllPeriods();
 

@@ -81,7 +81,7 @@ public class BudgetaryRepository {
         });
     }
 
-    public void addCategories(List<Category> categories){
+    public void addCategories(List<Category> categories) {
         executors.diskIO().execute(() -> {
             categoryDao.insert(categories);
         });
@@ -99,7 +99,7 @@ public class BudgetaryRepository {
         return transactionDao.getTransactionsByCategory(id, limit);
     }
 
-    public LiveData<List<Transaction>> getTransactions(int limit){
+    public LiveData<List<Transaction>> getTransactions(int limit) {
         return transactionDao.getTransactions(limit);
     }
 
@@ -121,7 +121,7 @@ public class BudgetaryRepository {
         });
     }
 
-    public LiveData<List<Icon>> getAllIcons(){
+    public LiveData<List<Icon>> getAllIcons() {
         return iconDao.getAllIcons();
     }
 
@@ -146,6 +146,12 @@ public class BudgetaryRepository {
     public void removeAllPeriods() {
         executors.diskIO().execute(() -> {
             periodDao.removeAllPeriods();
+        });
+    }
+
+    public void addPeriod(Period p) {
+        executors.diskIO().execute(() -> {
+            periodDao.insert(p);
         });
     }
 }

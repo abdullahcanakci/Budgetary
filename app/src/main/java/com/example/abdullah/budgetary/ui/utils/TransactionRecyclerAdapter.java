@@ -42,7 +42,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     }
 
     public void updateList(List<Transaction> newTransactions) {
-        if (newTransactions == null || newTransactions.size() == 0) {
+        if (newTransactions == null) {
             return;
         }
 

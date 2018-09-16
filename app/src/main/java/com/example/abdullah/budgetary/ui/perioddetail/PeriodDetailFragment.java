@@ -22,7 +22,6 @@ import com.example.abdullah.budgetary.ui.utils.TransactionRecyclerAdapter;
 import com.example.abdullah.budgetary.utilities.DateUtilities;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
 
-import java.util.Date;
 import java.util.List;
 
 public class PeriodDetailFragment extends Fragment {
@@ -43,7 +42,7 @@ public class PeriodDetailFragment extends Fragment {
 
         adapter = new TransactionRecyclerAdapter();
 
-        Period period = new Period(new Date(0), DateUtilities.now());
+        Period period = new Period(DateUtilities.periodStart(), DateUtilities.now());
         model.setPeriod(period);
         model.getTransactions().observe(this, (transactions -> {
             adapter.updateList(transactions);
@@ -60,7 +59,7 @@ public class PeriodDetailFragment extends Fragment {
         binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recycler.setAdapter(adapter);
 
-        stringAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item);
+        stringAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(stringAdapter);
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -100,6 +99,8 @@ public class PeriodDetailFragment extends Fragment {
     }
 
     private String[] getPeriodStrings(List<Period> periods) {
+        if(periods == null)
+            return new String [0];
         String[] strings = new String[periods.size()];
 
         int i = 0;

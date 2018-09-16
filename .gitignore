@@ -21,8 +21,6 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -134,6 +132,4 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 app/libs/
-app/src/androidTest/
 .idea/codeStyles/codeStyleConfig.xml
-app/src/test/

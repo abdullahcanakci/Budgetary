@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.abdullah.budgetary.data.BudgetaryRepository;
 import com.example.abdullah.budgetary.data.Category;
+import com.example.abdullah.budgetary.data.Period;
 import com.example.abdullah.budgetary.ui.CustomDialogFragment;
 import com.example.abdullah.budgetary.ui.main.MainFragment;
 import com.example.abdullah.budgetary.ui.newTransaction.NewTransactionFragment;
@@ -13,6 +14,8 @@ import com.example.abdullah.budgetary.ui.perioddetail.PeriodDetailFragment;
 import com.example.abdullah.budgetary.ui.utils.IconJsonParser;
 import com.example.abdullah.budgetary.utilities.BindingUtils;
 import com.example.abdullah.budgetary.utilities.InjectorUtils;
+import com.example.abdullah.budgetary.utilities.PreferenceHandler;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,8 +34,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AndroidThreeTen.init(this);
 
         mRepository = InjectorUtils.provideRepository(this);
+
+        checkSharedPrefs();
+        parseIcons();
+
+        BindingUtils.loadIcons(this, mRepository);
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame, MainFragment.getInstance()).commit();
 
@@ -44,17 +53,19 @@ public class MainActivity extends AppCompatActivity {
             d.setFragment(NewTransactionFragment.getInstance());
             d.show(getSupportFragmentManager(), "dialog");
         });
-
-
         findViewById(R.id.button_details).setOnClickListener((view) -> {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, PeriodDetailFragment.getInstance()).addToBackStack("details").commit();
         });
 
-        checkSharedPrefs();
-        parseIcons();
+        mRepository.getAllPeriods().observe(this, (periods -> {
+            if(periods != null)
+                if(periods.size() < 4) {
+                    Period last = periods.get(periods.size() - 1);
+                    Period ne = Period.createNewPeriod(last.getEnd());
 
-        BindingUtils.loadIcons(this, mRepository);
-
+                    mRepository.addPeriod(ne);
+                }
+        }));
 
     }
 
@@ -101,20 +112,21 @@ public class MainActivity extends AppCompatActivity {
 
         drawableVersion = handler.getDrawablesVersion();
         periodStart = handler.getPeriodStart();
-        if(handler.getFirstStart()){
-            if(onFirstRun()){
-                Log.d(TAG, "OnFirstRun.");
-                handler.setFirstStart();
-            }
-
+        if(handler.isFirstRun()){
+            onFirstRun();
+        } else{
+            Log.d(TAG, "checkSharedPrefs: Not on first run");
         }
 
     }
 
-    private boolean onFirstRun() {
+    private void onFirstRun() {
+        createFirstPeriod();
+    }
 
-
-        return false;
+    private void createFirstPeriod(){
+        Period p = Period.createFirstPeriod(this.periodStart);
+        mRepository.addPeriod(p);
     }
 
 }

@@ -4,51 +4,38 @@ import android.text.format.DateUtils;
 
 import com.example.abdullah.budgetary.data.Period;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.Locale;
 
 public class DateUtilities {
-    public static Date now() {
-        return new Date(nowMilli());
+    public static LocalDateTime now() {
+        return LocalDateTime.now();
     }
 
-    public static Date periodStart() {
-        return new Date(0);
+    public static LocalDateTime periodStart() {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC);
     }
 
-    public static String getHourInfo(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return sdf.format(date);
+    public static String getHourInfo(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern("HH:mm")
+                .withLocale(Locale.getDefault());
+        return formatter.format(date);
     }
 
-    public static String getDateRelation(Date date) {
-        return String.valueOf(DateUtils.getRelativeTimeSpanString(date.getTime(),  nowMilli(), DateUtils.DAY_IN_MILLIS));
-    }
-
-    public static Date getPeriodDate(int dayOfMonth, boolean nextMonth){
-        Calendar cal = Calendar.getInstance(Locale.getDefault());
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 1);
-        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-        if (nextMonth){
-            Date d = DateUtilities.now();
-            SimpleDateFormat s = new SimpleDateFormat("MM");
-            int month = Integer.parseInt(s.format(d));
-            month = (month + 1) % 13;
-            cal.set(Calendar.MONTH, month);
-        }
-
-
-        return cal.getTime();
+    public static String getDateRelation(LocalDateTime date) {
+        return String.valueOf(DateUtils.getRelativeTimeSpanString(date.toInstant(ZoneOffset.UTC).toEpochMilli(),  nowMilli(), DateUtils.DAY_IN_MILLIS));
     }
 
     public static String getPeriodInfo(Period period){
-        SimpleDateFormat m = new SimpleDateFormat("MM", Locale.getDefault());
-        SimpleDateFormat m1 = new SimpleDateFormat("MMMM", Locale.getDefault());
-        SimpleDateFormat d = new SimpleDateFormat("dd", Locale.getDefault());
+
+        DateTimeFormatter m = DateTimeFormatter.ofPattern("MM").withLocale(Locale.getDefault());
+        DateTimeFormatter m1 = DateTimeFormatter.ofPattern("MMMM").withLocale(Locale.getDefault());
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("dd").withLocale(Locale.getDefault());
 
         StringBuilder b = new StringBuilder();
         if((m.format(period.getStart()).equals(m.format(period.getEnd())))){
